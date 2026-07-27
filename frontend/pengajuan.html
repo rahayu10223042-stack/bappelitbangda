@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pengajuan — Layanan Magang & PKL Bappelitbangda Kabupaten Tasikmalaya</title>
+<meta name="description" content="Formulir pengajuan magang dan PKL secara online di Bappelitbangda Kabupaten Tasikmalaya.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Lompat ke konten utama</a>
+
+<header class="site-header">
+  <div class="header-inner container">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 20V13" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M10 20V9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16 20V5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 9L10 5L16 5L20.5 2.5" stroke="#F0A63F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 2.5H20.5V6" stroke="#F0A63F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-title" style="display:block;">BAPPELITBANGDA</span>
+        <span class="brand-sub">Kab. Tasikmalaya</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Buka menu navigasi">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Beranda</a>
+      <a href="alur.html">Alur Layanan</a>
+      <a href="cek-status.html">Cek Status</a>
+      <a href="maklumat.html">Maklumat</a>
+      <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+            Ajuan Layanan
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+      <div class="nav-dropdown-menu">
+          <a href="pengajuan.html">📄 Magang / PKL</a>
+          <a href="penelitian.html">🔬 Izin Penelitian</a>
+      </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <section class="page-hero" style="padding-bottom:60px;">
+    <div class="container">
+      <p class="crumb"><a href="index.html">Beranda</a> <span>/</span> <span>Form Pengajuan</span></p>
+      <p class="eyebrow">Formulir Resmi</p>
+      <h1>Ajuan Layanan Magang &amp; PKL</h1>
+      <p class="lede">Lengkapi formulir berikut dengan data yang benar. Pastikan surat pengantar dari kampus/sekolah sudah dalam bentuk PDF sebelum mengunggah.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0; margin-top:-48px;">
+    <div class="container">
+      <div class="form-shell reveal" id="ajuan">
+        <div class="kop">
+          <div class="kop-title">Formulir Ajuan Magang / PKL</div>
+          <div class="kop-code">No. Formulir: BPLB/PKL-MG/2026</div>
+        </div>
+
+        <form id="ajuanForm" novalidate>
+          <div class="form-grid">
+            <fieldset class="field full">
+              <legend>Jenis Pengajuan</legend>
+              <div class="radio-row">
+                <label><input type="radio" name="jenis" value="Magang" required> Magang</label>
+                <label><input type="radio" name="jenis" value="PKL"> PKL</label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="nama">Nama Lengkap</label>
+              <input type="text" id="nama" name="nama" required autocomplete="name">
+            </div>
+
+            <div class="field">
+              <label for="nim">NIM / NISN</label>
+              <input type="text" id="nim" name="nim" required>
+            </div>
+
+            <div class="field">
+              <label for="instansi">Asal Instansi / Kampus / Sekolah</label>
+              <input type="text" id="instansi" name="instansi" required>
+            </div>
+
+            <div class="field">
+              <label for="jurusan">Program Studi / Jurusan</label>
+              <input type="text" id="jurusan" name="jurusan" required>
+            </div>
+
+            <div class="field">
+              <label for="hp">Nomor HP / WhatsApp</label>
+              <input type="tel" id="hp" name="hp" required autocomplete="tel">
+            </div>
+
+            <div class="field">
+              <label for="email">Alamat Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+
+            <div class="field">
+              <label for="mulai">Tanggal Mulai</label>
+              <input type="date" id="mulai" name="mulai" required>
+            </div>
+
+            <div class="field">
+              <label for="selesai">Tanggal Selesai</label>
+              <input type="date" id="selesai" name="selesai" required>
+            </div>
+
+            <div class="field">
+              <label for="bidang">Bidang / Unit yang Dituju</label>
+              <select id="bidang" name="bidang" required>
+                <option value="" disabled selected>Pilih bidang</option>
+                <option>Sekretariat</option>
+                 <option>Bidang Perencanaan Pembangunan Ekonomi</option>
+                <option>Bidang Perencanaan Pembangunan Ekonomi</option>
+                <option>Bidang Perencanaan Pembangunan Sosial Budaya</option>
+                <option>Bidang Infrastruktur &amp; Kewilayahan</option>
+                <option>Bidang Penelitian &amp; Pengembangan</option>
+                <option>Bidang Perencanaan Pendanaan Pembangunan</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="suratPengantar">Unggah Surat Pengantar (PDF)</label>
+              <input type="file" id="suratPengantar" name="suratPengantar" accept="application/pdf" required>
+              <span class="hint">Ukuran maksimal 2 MB, format PDF.</span>
+            </div>
+
+            <div class="field full">
+              <label for="catatan">Catatan / Keperluan Tambahan</label>
+              <textarea id="catatan" name="catatan" placeholder="Contoh: jumlah anggota kelompok, permintaan bidang khusus, dsb."></textarea>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <span class="req-note">Semua kolom wajib diisi kecuali catatan tambahan.</span>
+            <button type="submit" class="btn btn-solid">Kirim Ajuan</button>
+          </div>
+
+          <div class="result-panel" id="resultPanel" role="status" aria-live="polite">
+            <p style="margin:0 0 6px;">Ajuan berhasil dikirim. Simpan nomor tiket berikut untuk memantau status:</p>
+            <div class="ticket" id="ticketNumber">—</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Sebelum Mengajukan</p>
+        <h2>Siapkan Dokumen Ini Terlebih Dahulu</h2>
+      </div>
+      <div class="value-grid">
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </span>
+          <h4>Surat Pengantar Resmi</h4>
+          <p>Diterbitkan oleh kampus/sekolah, format PDF, maksimal 2 MB.</p>
+        </div>
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </span>
+          <h4>Rentang Tanggal Pasti</h4>
+          <p>Tanggal mulai dan selesai kegiatan sesuai jadwal dari instansi asal.</p>
+        </div>
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <h4>Kontak Aktif</h4>
+          <p>Nomor HP/WhatsApp dan email aktif untuk konfirmasi penempatan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="kontak">
+  <div class="container footer-grid">
+    <div>
+      <h4>Bappelitbangda Kabupaten Tasikmalaya</h4>
+      <p>Badan Perencanaan Pembangunan, Penelitian dan Pengembangan Daerah<br>
+      Jl. Ir. H. Djuanda No. 1, Singaparna, Kabupaten Tasikmalaya, Jawa Barat 46415</p>
+    </div>
+    <div>
+      <h4>Tautan Layanan</h4>
+      <ul>
+        <li><a href="pengajuan.html">Magang / PKL</a></li>
+        <li><a href="penelitian.html">Izin Penelitian</a></li>
+        <li><a href="cek-status.html">Cek Status</a></li>
+        <li><a href="alur.html">Alur Layanan</a></li>
+        <li><a href="maklumat.html">Maklumat Pelayanan</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kontak</h4>
+      <ul>
+        <li>Telepon: (0265) 000-000</li>
+        <li>Email: bappelitbangda@tasikmalayakab.go.id</li>
+        <li>Senin&ndash;Jumat, 08.00&ndash;15.30 WIB</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; 2026 Bappelitbangda Kabupaten Tasikmalaya.</span>
+    <span>Layanan publik &mdash; tanpa dipungut biaya.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

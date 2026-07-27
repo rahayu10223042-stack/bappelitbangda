@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin — Bappelitbangda Kabupaten Tasikmalaya</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+<header class="admin-topbar">
+  <div class="container admin-topbar-inner">
+    <a class="brand" href="admin.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 20V13" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M10 20V9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16 20V5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 9L10 5L16 5L20.5 2.5" stroke="#F0A63F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 2.5H20.5V6" stroke="#F0A63F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-title" style="display:block;">BAPPELITBANGDA</span>
+        <span class="brand-sub">Panel Admin</span>
+      </span>
+    </a>
+
+    <nav class="admin-tabs" style="margin-left:32px;">
+      <a href="admin.html" class="active">Dashboard</a>
+      <a href="admin-ajuan.html">Data Ajuan</a>
+      <a href="admin-penelitian.html">Data Penelitian</a>
+    </nav>
+
+    <div class="admin-user" style="margin-left:auto;">
+      <span class="avatar" id="adminAvatar">A</span>
+      <div>
+        <div class="uname" id="adminName">Admin</div>
+        <div class="urole">Petugas Layanan</div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Keluar
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="container">
+
+    <div class="admin-head">
+      <div>
+        <h1>Dashboard &amp; Berita Acara</h1>
+        <p>Ringkasan statistik, rekap bulanan, dan kelola dokumen layanan.</p>
+      </div>
+      <a href="admin-ajuan.html" class="btn btn-solid">
+        Lihat Tabel Data Ajuan
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="admin-stats" id="adminStats">
+      <div class="admin-stat-card"><div class="n" id="statTotal">—</div><div class="l">Total Ajuan</div></div>
+      <div class="admin-stat-card"><div class="n" id="statPending">—</div><div class="l">Menunggu Verifikasi</div></div>
+      <div class="admin-stat-card"><div class="n" id="statApproved">—</div><div class="l">Diverifikasi</div></div>
+      <div class="admin-stat-card"><div class="n" id="statDone">—</div><div class="l">Selesai</div></div>
+    </div>
+
+    <!-- ===== Berita Acara (rekap bulanan) ===== -->
+    <div class="admin-head" style="margin-top:36px;">
+      <div>
+        <h1 style="font-size:1.2rem;">Berita Acara — Rekap Bulanan</h1>
+        <p>Ringkasan otomatis jumlah ajuan per bulan, 12 bulan terakhir.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:32px;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Bulan</th><th>Magang</th><th>PKL</th><th>Menunggu</th>
+            <th>Diverifikasi</th><th>Ditolak</th><th>Selesai</th><th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="beritaAcaraBody">
+          <tr><td colspan="8" style="color:var(--ink-soft); padding:16px;">Memuat rekap...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== Kelola Dokumen ===== -->
+    <div class="admin-head">
+      <div>
+        <h1 style="font-size:1.2rem;">Kelola Dokumen Layanan</h1>
+        <p>Unggah atau ganti dokumen Alur Layanan dan Maklumat Pelayanan yang tampil di halaman publik. Bisa PDF atau format file lain.</p>
+      </div>
+    </div>
+
+    <div id="dokumenGrid" class="doc-slot-grid">
+      <!-- Diisi otomatis oleh admin-dashboard.js -->
+    </div>
+
+  </div>
+</main>
+
+<div class="toast" id="toast" role="alert"></div>
+
+<script src="admin-common.js"></script>
+<script src="admin-dashboard.js"></script>
+</body>
+</html>

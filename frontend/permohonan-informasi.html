@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Permohonan Informasi & Pengaduan — Bappelitbangda Kabupaten Tasikmalaya</title>
+<meta name="description" content="Ajukan permohonan informasi, pengaduan, atau konsultasi kepada Bappelitbangda Kabupaten Tasikmalaya.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Lompat ke konten utama</a>
+
+<header class="site-header">
+  <div class="header-inner container">
+    <a class="brand" href="index.html">
+      <span class="brand-logo" aria-hidden="true">
+        <img src="images/logo-bappelitbangda.png" alt="Logo Bappelitbangda Kabupaten Tasikmalaya">
+      </span>
+      <span class="brand-text">
+        <span class="brand-title">BAPPELITBANGDA</span>
+        <span class="brand-sub">Kab. Tasikmalaya</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Buka menu navigasi">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Beranda</a>
+      <a href="alur.html">Alur Layanan</a>
+      <a href="cek-status.html">Cek Status</a>
+      <a href="maklumat.html">Maklumat</a>
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          Ajuan Layanan
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="pengajuan.html">📄 Magang / PKL</a>
+          <a href="penelitian.html">🔬 Izin Penelitian</a>
+          <a href="permohonan-informasi.html">✉️ Permohonan &amp; Pengaduan</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <section class="page-hero" style="padding-bottom:60px;">
+    <div class="container">
+      <p class="crumb"><a href="index.html">Beranda</a> <span>/</span> <span>Permohonan &amp; Pengaduan</span></p>
+      <p class="eyebrow">Formulir Resmi</p>
+      <h1>Permohonan Informasi, Pengaduan &amp; Konsultasi</h1>
+      <p class="lede">Sampaikan permohonan informasi, pengaduan, atau konsultasi terkait pelayanan Bappelitbangda Kabupaten Tasikmalaya. Kami akan menindaklanjuti sesuai jenis layanan yang Anda pilih.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0; margin-top:-48px;">
+    <div class="container">
+      <div class="form-shell reveal" id="ajuan">
+        <div class="kop">
+          <div class="kop-title">Formulir Permohonan &amp; Pengaduan</div>
+          <div class="kop-code">No. Formulir: BPLB/INF/2026</div>
+        </div>
+
+        <form id="permohonanForm" novalidate>
+          <div class="form-grid">
+            <fieldset class="field full">
+              <legend>Jenis Layanan</legend>
+              <div class="radio-row">
+                <label><input type="radio" name="jenisLayanan" value="Permohonan Informasi" required> Permohonan Informasi</label>
+                <label><input type="radio" name="jenisLayanan" value="Pengaduan"> Pengaduan</label>
+                <label><input type="radio" name="jenisLayanan" value="Konsultasi"> Konsultasi</label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="namaPemohon">Nama Lengkap</label>
+              <input type="text" id="namaPemohon" name="namaPemohon" required autocomplete="name">
+            </div>
+
+            <div class="field">
+              <label for="instansi">Asal Instansi (opsional)</label>
+              <input type="text" id="instansi" name="instansi" placeholder="Kosongkan jika perorangan">
+            </div>
+
+            <div class="field">
+              <label for="noHp">Nomor HP / WhatsApp</label>
+              <input type="tel" id="noHp" name="noHp" required autocomplete="tel">
+            </div>
+
+            <div class="field">
+              <label for="email">Alamat Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+
+            <div class="field full">
+              <label for="uraian">Uraian Permohonan / Pengaduan / Konsultasi</label>
+              <textarea id="uraian" name="uraian" required placeholder="Jelaskan secara singkat dan jelas apa yang ingin Anda sampaikan..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <span class="req-note">Semua kolom wajib diisi kecuali asal instansi.</span>
+            <button type="submit" class="btn btn-solid">Kirim Permohonan</button>
+          </div>
+
+          <div class="result-panel" id="resultPanel" role="status" aria-live="polite">
+            <p style="margin:0 0 6px;">Permohonan berhasil dikirim. Simpan nomor registrasi berikut untuk memantau status:</p>
+            <div class="ticket" id="nomorRegistrasi">—</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Jenis Layanan</p>
+        <h2>Pilih Sesuai Kebutuhan Anda</h2>
+      </div>
+      <div class="value-grid">
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg>
+          </span>
+          <h4>Permohonan Informasi</h4>
+          <p>Meminta data atau informasi publik terkait tugas dan fungsi Bappelitbangda.</p>
+        </div>
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          <h4>Pengaduan</h4>
+          <p>Melaporkan keluhan atau ketidaksesuaian pelayanan yang Anda alami.</p>
+        </div>
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+          </span>
+          <h4>Konsultasi</h4>
+          <p>Berdiskusi atau meminta arahan terkait proses perencanaan dan pembangunan daerah.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="kontak">
+  <div class="container footer-grid">
+    <div>
+      <h4>Bappelitbangda Kabupaten Tasikmalaya</h4>
+      <p>Badan Perencanaan Pembangunan, Penelitian dan Pengembangan Daerah<br>
+      Jl. Ir. H. Djuanda No. 1, Singaparna, Kabupaten Tasikmalaya, Jawa Barat 46415</p>
+    </div>
+    <div>
+      <h4>Tautan Layanan</h4>
+      <ul>
+        <li><a href="pengajuan.html">Magang / PKL</a></li>
+        <li><a href="penelitian.html">Izin Penelitian</a></li>
+        <li><a href="permohonan-informasi.html">Permohonan &amp; Pengaduan</a></li>
+        <li><a href="cek-status.html">Cek Status</a></li>
+        <li><a href="alur.html">Alur Layanan</a></li>
+        <li><a href="maklumat.html">Maklumat Pelayanan</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kontak</h4>
+      <ul>
+        <li>Telepon: (0265) 000-000</li>
+        <li>Email: bappelitbangda@tasikmalayakab.go.id</li>
+        <li>Senin&ndash;Jumat, 08.00&ndash;15.30 WIB</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; 2026 Bappelitbangda Kabupaten Tasikmalaya.</span>
+    <span>Layanan publik &mdash; tanpa dipungut biaya.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert"></div>
+
+<script src="script.js"></script>
+<script>
+  // ==========================================================
+  // Form Permohonan Informasi/Pengaduan/Konsultasi
+  // POST {API_BASE}/api/permohonan (field: namaPemohon, instansi,
+  // noHp, email, jenisLayanan, uraian) — API_BASE sudah didefinisikan
+  // secara global di script.js
+  // ==========================================================
+  const permohonanForm = document.getElementById('permohonanForm');
+  if (permohonanForm) {
+    const resultPanel = document.getElementById('resultPanel');
+    const nomorRegistrasi = document.getElementById('nomorRegistrasi');
+    const submitBtn = permohonanForm.querySelector('button[type="submit"]');
+
+    permohonanForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      if (!permohonanForm.checkValidity()) {
+        permohonanForm.reportValidity();
+        return;
+      }
+
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim...';
+
+      try {
+        const formData = new FormData(permohonanForm);
+        const payload = Object.fromEntries(formData.entries());
+
+        const response = await fetch(`${API_BASE}/api/permohonan`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Gagal mengirim permohonan.');
+        }
+
+        nomorRegistrasi.textContent = result.nomorRegistrasi;
+        resultPanel.classList.add('show');
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showToast('Permohonan berhasil dikirim.');
+        permohonanForm.reset();
+
+      } catch (err) {
+        console.error(err);
+        showToast(err.message || 'Terjadi kesalahan. Coba lagi beberapa saat. (Pastikan server backend aktif di ' + API_BASE + ')');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  }
+</script>
+</body>
+</html>

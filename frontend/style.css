@@ -120,55 +120,91 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 /* ===== Brand / Logo ===== */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  flex-shrink: 0;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-decoration:none;
+  color:var(--ink);
+  flex-shrink:0;
 }
 
-.brand-logo {
-  width: 48px;
-  height: 48px;
-  flex: none;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid rgba(201, 160, 79, 0.35);
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.brand-logo{
+  width:50px;
+  height:50px;
+  flex:none;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 12px rgba(10,46,92,0.3);
+  border:2px solid rgba(201,160,79,0.4);
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+  background:var(--white);
 }
 
-.brand-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.brand-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
-.brand:hover .brand-logo {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(10, 46, 92, 0.25);
+.brand:hover .brand-logo{
+  transform:scale(1.05);
+  box-shadow:0 6px 20px rgba(10,46,92,0.4);
 }
 
-.brand-text .brand-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: var(--blue-950);
-  letter-spacing: -0.01em;
+.brand-text .brand-title{
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  font-weight:800;
+  line-height:1.15;
+  color:var(--blue-950);
+  letter-spacing:-0.01em;
 }
 
-.brand-text .brand-sub {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  font-weight: 600;
+.brand-text .brand-sub{
+  font-family:var(--font-mono);
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  font-weight:600;
+}
+
+/* ===== Logo versi kecil untuk admin topbar ===== */
+.admin-topbar .brand-logo{
+  width:42px;
+  height:42px;
+}
+.admin-topbar .brand-text .brand-title{
+  font-size:0.85rem;
+}
+.admin-topbar .brand-text .brand-sub{
+  font-size:0.55rem;
+}
+
+/* ===== Logo versi besar untuk login ===== */
+.login-card .brand-logo{
+  width:72px;
+  height:72px;
+  margin:0 auto 12px;
+}
+.login-card .brand{
+  flex-direction:column;
+  gap:6px;
+}
+.login-card .brand-text{
+  text-align:center;
+}
+.login-card .brand-text .brand-title{
+  font-size:1.2rem;
+}
+.login-card .brand-text .brand-sub{
+  font-size:0.7rem;
 }
 
 /* ===== Navigasi ===== */
@@ -198,48 +234,55 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   color: #fff;
 }
 
-/* ===== Dropdown ===== */
+/* ===== Dropdown "Ajuan Layanan" ===== */
 .nav-dropdown {
   position: relative;
 }
 
-.nav-dropdown-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--blue-950);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  transition: background 0.15s ease;
+.nav-dropdown-toggle{
+  background:linear-gradient(135deg, #4F9DFF 0%, #1B5FE0 100%);
+  border:none; cursor:pointer;
+  font:inherit; font-size:0.88rem; font-weight:700;
+  color:#fff !important; display:flex; align-items:center; gap:6px;
+  padding:10px 20px;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(27,95,224,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+  position:relative;
+  overflow:hidden;
+  transition:transform .18s ease, box-shadow .18s ease;
 }
-
-.nav-dropdown-toggle:hover {
-  background: var(--blue-100);
+.nav-dropdown-toggle::before{
+  content:"";
+  position:absolute; top:0; left:-60%;
+  width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform:skewX(-20deg);
+  transition:left .5s ease;
 }
-
-.nav-dropdown-toggle svg {
-  transition: transform 0.25s ease;
+.nav-dropdown-toggle:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(27,95,224,0.45), inset 0 1px 0 rgba(255,255,255,0.3);
 }
+.nav-dropdown-toggle:hover::before{
+  left:130%;
+}
+.nav-dropdown-toggle svg{ stroke:#fff; transition: transform 0.25s ease; }
 
 .nav-dropdown.open .nav-dropdown-toggle svg {
   transform: rotate(180deg);
 }
 
+/* Menu dropdown rata KANAN, supaya tidak nyembur keluar layar
+   waktu tombolnya ada di ujung kanan header */
 .nav-dropdown-menu {
   position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
+  top: calc(100% + 8px);
+  right: 0;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(10, 56, 104, 0.14);
-  min-width: 210px;
+  min-width: 220px;
   padding: 6px;
   display: none;
   z-index: 100;
@@ -251,14 +294,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 @keyframes dropdownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .nav-dropdown-menu a {
@@ -278,29 +315,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   background: var(--blue-50);
 }
 
-/* ===== CTA Button ===== */
-.nav-cta {
-  background: linear-gradient(135deg, #1B5FE0 0%, #4F9DFF 100%) !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  padding: 8px 22px !important;
-  border-radius: 999px !important;
-  box-shadow: 0 4px 14px rgba(27, 95, 224, 0.35);
-  border: none !important;
-  margin-left: 6px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ===== CTA Button (kalau dipakai terpisah dari dropdown) ===== */
+.nav-cta{
+  background:linear-gradient(135deg, #4F9DFF 0%, #1B5FE0 100%) !important;
+  color:#fff !important;
+  font-weight:700 !important;
+  padding:10px 22px !important;
+  border-radius:999px !important;
+  box-shadow:0 6px 16px rgba(27,95,224,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+  border:none !important;
+  margin-left:6px;
+  position:relative;
+  overflow:hidden;
+  transition:transform .18s ease, box-shadow .18s ease;
 }
-
-.nav-cta:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 24px rgba(27, 95, 224, 0.45) !important;
-  background: var(--blue-100) !important;
+.nav-cta::before{
+  content:"";
+  position:absolute; top:0; left:-60%;
+  width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform:skewX(-20deg);
+  transition:left .5s ease;
 }
-
-.nav-cta.active {
-  outline: 2px solid var(--blue-900);
-  outline-offset: 2px;
+.nav-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(27,95,224,0.45), inset 0 1px 0 rgba(255,255,255,0.3);
 }
+.nav-cta:hover::before{
+  left:130%;
+}
+.nav-cta.active{outline:2px solid var(--blue-900); outline-offset:2px;}
 
 /* ===== Tombol Hamburger (Mobile) ===== */
 .nav-toggle {
@@ -422,93 +466,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .brand-text .brand-sub {
     font-size: 0.5rem;
   }
-}
-
-/* ===== Logo Bappelitbangda ===== */
-.brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  text-decoration:none;
-  color:var(--ink);
-}
-
-.brand-logo{
-  width:50px;
-  height:50px;
-  flex:none;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 4px 12px rgba(10,46,92,0.3);
-  border:2px solid rgba(201,160,79,0.4);
-  position:relative;
-  overflow:hidden;
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-  background:var(--white); /* atau warna dasar logo */
-}
-
-.brand-logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover; /* atau contain, tergantung kebutuhan */
-  display:block;
-}
-
-.brand:hover .brand-logo{
-  transform:scale(1.05);
-  box-shadow:0 6px 20px rgba(10,46,92,0.4);
-}
-
-.brand-text .brand-title{
-  font-family:var(--font-display);
-  font-size:1.05rem;
-  font-weight:800;
-  line-height:1.15;
-  color:var(--blue-950);
-  letter-spacing:-0.01em;
-}
-
-.brand-text .brand-sub{
-  font-family:var(--font-mono);
-  font-size:0.6rem;
-  letter-spacing:0.1em;
-  color:var(--ink-soft);
-  text-transform:uppercase;
-  font-weight:600;
-}
-
-/* ===== Logo versi kecil untuk admin topbar ===== */
-.admin-topbar .brand-logo{
-  width:42px;
-  height:42px;
-}
-.admin-topbar .brand-text .brand-title{
-  font-size:0.85rem;
-}
-.admin-topbar .brand-text .brand-sub{
-  font-size:0.55rem;
-}
-
-/* ===== Logo versi besar untuk login ===== */
-.login-card .brand-logo{
-  width:72px;
-  height:72px;
-  margin:0 auto 12px;
-}
-.login-card .brand{
-  flex-direction:column;
-  gap:6px;
-}
-.login-card .brand-text{
-  text-align:center;
-}
-.login-card .brand-text .brand-title{
-  font-size:1.2rem;
-}
-.login-card .brand-text .brand-sub{
-  font-size:0.7rem;
 }
 
 /* ===== Buttons ===== */
@@ -896,92 +853,3 @@ table.admin-table tr:hover td{background:var(--blue-50);}
 /* ===== Scroll reveal ===== */
 .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
 .reveal.in{opacity:1; transform:translateY(0);}
-
-/* ===== Dropdown menu navigasi ===== */
-.nav-dropdown{ position:relative; }
-.nav-dropdown-toggle{
-  background:none; border:none; cursor:pointer;
-  font:inherit; color:inherit; display:flex; align-items:center; gap:4px;
-  padding:inherit;
-}
-.nav-dropdown-menu{
-  position:absolute; top:calc(100% + 8px); left:0;
-  background:#fff; border:1px solid #E2E8F0; border-radius:12px;
-  box-shadow:0 12px 30px rgba(15,23,42,0.12);
-  min-width:200px; padding:8px; display:none; z-index:50;
-}
-.nav-dropdown.open .nav-dropdown-menu{ display:block; }
-.nav-dropdown-menu a{
-  display:flex; align-items:center; gap:8px;
-  padding:10px 12px; border-radius:8px; color:#1e293b !important;
-  text-decoration:none; font-size:0.92rem; font-weight:500;
-}
-.nav-dropdown-menu a:hover{ background:#F1F5F9; }
-.nav-dropdown-toggle svg{ transition:transform .15s ease; }
-.nav-dropdown.open .nav-dropdown-toggle svg{ transform:rotate(180deg); }
-
-@media (max-width:980px){
-  .nav-dropdown-menu{
-    position:static; box-shadow:none; border:none; display:none;
-    padding-left:12px; margin-top:4px;
-  }
-  .nav-dropdown.open .nav-dropdown-menu{ display:block; }
-}
-
-.nav-dropdown-toggle{
-  background:linear-gradient(135deg, #4F9DFF 0%, #1B5FE0 100%);
-  border:none; cursor:pointer;
-  font:inherit; color:#fff !important; display:flex; align-items:center; gap:6px;
-  padding:10px 20px !important;
-  border-radius:999px;
-  font-weight:700;
-  box-shadow:0 6px 16px rgba(27,95,224,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
-  position:relative;
-  overflow:hidden;
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.nav-dropdown-toggle::before{
-  content:"";
-  position:absolute; top:0; left:-60%;
-  width:40%; height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform:skewX(-20deg);
-  transition:left .5s ease;
-}
-.nav-dropdown-toggle:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(27,95,224,0.45), inset 0 1px 0 rgba(255,255,255,0.3);
-}
-.nav-dropdown-toggle:hover::before{
-  left:130%;
-}
-.nav-dropdown-toggle svg{ stroke:#fff; }
-
-/* ===== Tombol CTA "Ajukan Sekarang" — gaya khusus ===== */
-.nav-cta{
-  background:linear-gradient(135deg, #4F9DFF 0%, #1B5FE0 100%) !important;
-  color:#fff !important;
-  font-weight:700 !important;
-  padding:10px 22px !important;
-  border-radius:999px !important;
-  box-shadow:0 6px 16px rgba(27,95,224,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
-  border:none !important;
-  position:relative;
-  overflow:hidden;
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.nav-cta::before{
-  content:"";
-  position:absolute; top:0; left:-60%;
-  width:40%; height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform:skewX(-20deg);
-  transition:left .5s ease;
-}
-.nav-cta:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(27,95,224,0.45), inset 0 1px 0 rgba(255,255,255,0.3);
-}
-.nav-cta:hover::before{
-  left:130%;
-}

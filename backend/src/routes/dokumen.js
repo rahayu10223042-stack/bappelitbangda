@@ -11,7 +11,7 @@ router.use(requireAdminKey);
 const UPLOAD_DIR = path.resolve(__dirname, '../../uploads/dokumen');
 
 // Jenis dokumen yang dikenal situs publik
-const KNOWN_JENIS = ['alur', 'maklumat'];
+const KNOWN_JENIS = ['alur', 'maklumat', 'ikm'];
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });

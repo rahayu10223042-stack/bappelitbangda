@@ -72,6 +72,7 @@ if (statTotalEl) {
   const DOKUMEN_LABEL = {
     alur: 'Bagan Alur Layanan',
     maklumat: 'Maklumat Pelayanan',
+    ikm: 'Formulir IKM',
   };
 
   async function loadDokumen(){

@@ -11,6 +11,8 @@ const dokumenPublicRoutes = require('./src/routes/dokumen-public');
 const penelitianRoutes = require('./src/routes/penelitian');
 const adminPenelitianRoutes = require('./src/routes/admin-penelitian');
 const authGoogleRoutes = require('./src/routes/auth-google');
+const permohonanRoutes = require('./src/routes/permohonan');
+const adminPermohonanRoutes = require('./src/routes/admin-permohonan');
 
 const app = express();
 
@@ -36,6 +38,8 @@ app.use('/api/dokumen', dokumenPublicRoutes); // akses publik: GET /api/dokumen/
 app.use('/api/penelitian', penelitianRoutes); // publik: kirim ajuan & cek status izin penelitian
 app.use('/api/admin/penelitian', adminPenelitianRoutes); // admin: kelola izin penelitian
 app.use('/api/auth', authGoogleRoutes);
+app.use('/api/permohonan', permohonanRoutes); // publik: kirim permohonan & cek status
+app.use('/api/admin/permohonan', adminPermohonanRoutes);
 
 // Penanganan error umum (mis. file bukan PDF, ukuran file terlalu besar dari multer)
 app.use((err, req, res, next) => {

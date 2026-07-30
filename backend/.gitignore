@@ -1,0 +1,23 @@
+# Kredensial & konfigurasi rahasia — JANGAN pernah di-push ke Git
+.env
+.env.*
+!.env.example
+
+# Dependencies — terlalu besar & bisa di-generate ulang lewat `npm install`
+node_modules/
+
+# Berkas yang diunggah pengguna (surat pengantar, proposal, KTP, dokumen layanan)
+# Sebaiknya di-backup terpisah, bukan lewat Git
+uploads/
+
+# Log
+*.log
+npm-debug.log*
+
+# File sistem operasi
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

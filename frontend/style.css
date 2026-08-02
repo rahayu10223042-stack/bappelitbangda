@@ -670,16 +670,6 @@ fieldset.field legend{font-size:0.85rem; font-weight:700; color:var(--blue-950);
 .value-item h4{font-size:1rem; margin-bottom:6px;}
 .value-item p{margin:0; font-size:0.88rem; color:var(--ink-soft);}
 
-/* ===== CTA band ===== */
-.cta-band{
-  background:var(--grad-band); color:#fff; border-radius:var(--radius-lg); padding:52px 48px;
-  display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap;
-  position:relative; overflow:hidden;
-}
-.cta-band::before{content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 20%, rgba(255,255,255,0.18), transparent 45%);}
-.cta-band h3{color:#fff; font-size:1.5rem; position:relative;}
-.cta-band p{margin:8px 0 0; color:#E4F0FD; position:relative;}
-
 /* ===== Footer ===== */
 footer.site-footer{background:var(--blue-950); color:#B9CEE6; padding:60px 0 28px;}
 .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px;}

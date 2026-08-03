@@ -13,6 +13,7 @@ const adminPenelitianRoutes = require('./src/routes/admin-penelitian');
 const authGoogleRoutes = require('./src/routes/auth-google');
 const permohonanRoutes = require('./src/routes/permohonan');
 const adminPermohonanRoutes = require('./src/routes/admin-permohonan');
+const adminAuthRoutes = require('./src/routes/admin-auth');
 
 const app = express();
 
@@ -32,6 +33,12 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/ajuan', ajuanRoutes);
+// PENTING: /api/admin/auth harus didaftar SEBELUM /api/admin, karena
+// Express mencocokkan berdasarkan awalan path. Kalau /api/admin
+// didaftar duluan dan router-nya punya middleware pengecekan token
+// global, request ke /api/admin/auth/login ikut tersaring middleware
+// itu duluan sebelum sempat sampai ke route login yang sebenarnya.
+app.use('/api/admin/auth', adminAuthRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/dokumen', dokumenRoutes);
 app.use('/api/dokumen', dokumenPublicRoutes); // akses publik: GET /api/dokumen/alur, /api/dokumen/maklumat

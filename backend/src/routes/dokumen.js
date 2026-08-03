@@ -2,10 +2,10 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { requireAdminKey } = require('../middleware/auth');
+const { requireAdminAuth } = require('../middleware/requireAdminAuth');
 
 const router = express.Router();
-router.use(requireAdminKey);
+router.use(requireAdminAuth);
 
 // Folder tujuan: backend/uploads/dokumen (dilayani publik via /uploads, lihat server.js)
 const UPLOAD_DIR = path.resolve(__dirname, '../../uploads/dokumen');

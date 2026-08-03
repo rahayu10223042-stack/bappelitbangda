@@ -27,15 +27,18 @@
       </span>
     </a>
     <h1>Login Admin</h1>
-    <p class="sub">Masukkan Admin Key untuk mengelola ajuan magang &amp; PKL.</p>
+    <p class="sub">Masuk dengan akun admin untuk mengelola ajuan magang &amp; PKL.</p>
 
     <div class="login-error" id="loginError" role="alert"></div>
 
     <form id="adminLoginForm" novalidate>
       <div class="field">
-        <label for="adminKey">Admin Key</label>
-        <input type="password" id="adminKey" name="adminKey" required autocomplete="off" placeholder="Masukkan kunci admin">
-        <span class="hint">Kunci ini dikonfigurasi di server (.env), bukan akun pengguna.</span>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autocomplete="username" placeholder="Masukkan username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Masukkan password">
       </div>
       <button type="submit" class="btn btn-solid">Masuk</button>
     </form>

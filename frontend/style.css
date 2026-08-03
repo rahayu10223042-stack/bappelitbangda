@@ -1,6 +1,6 @@
-/* =========================================================
+/* =======================================
    BAPPELITBANGDA KABUPATEN TASIKMALAYA
-========================================================= */
+==========================================*/
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
 
@@ -321,7 +321,7 @@ nav.main-nav a.active{background:var(--blue-900); color:#fff;}
 .hero-grid > *{min-width:0;}
 @media (max-width:900px){.hero-grid{grid-template-columns:1fr;}}
 
-/* ===== HERO LOGO TANPA BACKGROUND ===== */
+/* ===== HERO LOGO ===== */
 .hero-logo-wrapper {
     display: flex;
     align-items: center;
@@ -331,7 +331,7 @@ nav.main-nav a.active{background:var(--blue-900); color:#fff;}
 
 .hero-logo-wrapper img {
     width: 100%;
-    max-width: 450px; /* UKURAN BESAR */
+    max-width: 450px;
     height: auto;
     max-height: 400px;
     object-fit: contain;

@@ -19,7 +19,7 @@ const upload = multer({
 
 const REQUIRED_FIELDS = [
   'jenis', 'nama', 'nim', 'instansi', 'jurusan',
-  'hp', 'email', 'mulai', 'selesai', 'bidang',
+  'hp', 'email', 'mulai', 'selesai',
 ];
 
 function buildTicketNumber(jenis) {
@@ -79,7 +79,7 @@ router.post('/', upload.single('suratPengantar'), async (req, res) => {
          surat_pengantar_url, catatan, status)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Menunggu Verifikasi')`,
       [ticketNumber, jenis, nama, nim, instansi, jurusan,
-        hp, email, mulai, selesai, bidang, suratUrl, catatan || null],
+        hp, email, mulai, selesai, bidang || null, suratUrl, catatan || null],
     );
 
     try {

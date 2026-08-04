@@ -1,10 +1,12 @@
 // =========================================================
 // BAPPELITBANGDA — Kode bersama untuk semua halaman admin
-// (login, cek kunci admin, logout, helper fetch)
-// Dipakai oleh: admin-login.html, admin.html, admin-ajuan.html
+// (login, cek sesi, logout, helper fetch dengan token)
+// Dipakai oleh: admin-login.html, admin.html, admin-ajuan.html,
+// admin-penelitian.html, dan halaman admin lain yang menyusul.
 // =========================================================
 const API_BASE = 'http://localhost:4000'; // SESUAIKAN bila backend beda host
 const TOKEN_STORAGE = 'bplb_admin_token';
+const ADMIN_INFO_STORAGE = 'bplb_admin_info';
 
 function showToast(message){
   const toast = document.getElementById('toast');
@@ -19,16 +21,21 @@ function getAdminToken(){
   return localStorage.getItem(TOKEN_STORAGE);
 }
 
+function getAdminInfo(){
+  try {
+    return JSON.parse(localStorage.getItem(ADMIN_INFO_STORAGE) || 'null');
+  } catch {
+    return null;
+  }
+}
+
 function authHeaders(extra){
-  const token = getAdminToken();
-  return Object.assign(
-    token ? { 'Authorization': `Bearer ${token}` } : {},
-    extra || {}
-  );
+  return Object.assign({ 'Authorization': `Bearer ${getAdminToken() || ''}` }, extra || {});
 }
 
 function handleAuthFailure(){
   localStorage.removeItem(TOKEN_STORAGE);
+  localStorage.removeItem(ADMIN_INFO_STORAGE);
   window.location.href = 'admin-login.html';
 }
 
@@ -66,19 +73,14 @@ if (loginForm) {
         body: JSON.stringify({ username, password }),
       });
 
-      if (response.status === 401 || response.status === 403) {
-        throw new Error('Username atau password salah.');
-      }
-      if (!response.ok) {
-        throw new Error('Tidak dapat terhubung ke server. Coba lagi.');
-      }
-
       const result = await response.json();
-      if (!result.success || !result.token) {
+
+      if (!response.ok || !result.success) {
         throw new Error(result.message || 'Username atau password salah.');
       }
 
       localStorage.setItem(TOKEN_STORAGE, result.token);
+      localStorage.setItem(ADMIN_INFO_STORAGE, JSON.stringify(result.admin));
       window.location.href = 'admin.html';
 
     } catch (err) {
@@ -94,15 +96,26 @@ if (loginForm) {
 
 // =========================================================
 // PENJAGA HALAMAN ADMIN (hanya berjalan kalau ada #logoutBtn,
-// artinya ini halaman terproteksi: admin.html / admin-ajuan.html)
+// artinya ini halaman terproteksi: admin.html / admin-ajuan.html / dst)
 // =========================================================
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
   if (!getAdminToken()) {
     window.location.href = 'admin-login.html';
   }
+
+  // Tampilkan nama admin yang login, kalau elemen-elemen ini ada di halaman
+  const info = getAdminInfo();
+  if (info) {
+    const nameEl = document.getElementById('adminName');
+    const avatarEl = document.getElementById('adminAvatar');
+    if (nameEl) nameEl.textContent = info.namaLengkap || info.username || 'Admin';
+    if (avatarEl) avatarEl.textContent = (info.namaLengkap || info.username || 'A').charAt(0).toUpperCase();
+  }
+
   logoutBtn.addEventListener('click', () => {
     localStorage.removeItem(TOKEN_STORAGE);
+    localStorage.removeItem(ADMIN_INFO_STORAGE);
     window.location.href = 'admin-login.html';
   });
 }

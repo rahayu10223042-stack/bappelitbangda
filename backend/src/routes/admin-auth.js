@@ -21,7 +21,6 @@ const router = express.Router();
 
 // POST /api/admin/auth/login — { username, password } -> token JWT
 router.post('/login', async (req, res) => {
-  console.log('>>> LOGIN ROUTE VERSI BARU DIPANGGIL <<<');
   try {
     const { username, password } = req.body;
 

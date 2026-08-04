@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const { pool } = require('../db');
 const { uploadFileToDrive, appendRowToSheet } = require('../googleClient');
+const { sendTicketEmail } = require('../mailer');
 
 const router = express.Router();
 
@@ -90,6 +91,14 @@ router.post('/', upload.single('suratPengantar'), async (req, res) => {
     } catch (err) {
       console.error('[Sheets] Gagal menulis ke spreadsheet:', err.message);
     }
+
+    // Kirim email konfirmasi berisi nomor tiket ke pendaftar
+    sendTicketEmail({
+      to: email,
+      nama,
+      nomorTiket: ticketNumber,
+      jenisLayanan: jenis === 'PKL' ? 'PKL' : 'Magang',
+    });
 
     res.status(201).json({
       success: true,

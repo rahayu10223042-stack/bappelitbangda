@@ -158,10 +158,9 @@ nav.main-nav a.active{background:var(--blue-900); color:#fff;}
   .nav-cta{margin:6px 0 0;}
 }
 
-/* =========================================================
-   HEADER LOGO GROUP (menggantikan .logo-4-wrapper versi header
-   yang lama — dipisah supaya tidak bentrok dengan versi footer)
-   ========================================================= */
+/* ===================
+   HEADER LOGO GROUP 
+   =================== */
 .header-logo-group {
     display: flex;
     align-items: center;

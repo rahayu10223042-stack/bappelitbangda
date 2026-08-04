@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Konsultasi dan Pengaduan — Bappelitbangda Kabupaten Tasikmalaya</title>
-<meta name="description" content="Formulir pengajuan konsultasi dan pengaduan secara online di Bappelitbangda Kabupaten Tasikmalaya.">
+<title>Permohonan Data dan Informasi — Bappelitbangda Kabupaten Tasikmalaya</title>
+<meta name="description" content="Formulir pengajuan permohonan data dan informasi secara online di Bappelitbangda Kabupaten Tasikmalaya.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -35,8 +35,8 @@
       <div class="nav-dropdown-menu">
           <a href="pengajuan.html">Magang / PKL</a>
           <a href="penelitian.html">Izin Penelitian</a>
-          <a href="">Layanan Permohonan Data dan Informasi</a>
-          <a href="permohonan-informasi.html">Konsultasi dan Pengaduan</a>
+          <a href="permohonan-informasi.html" aria-current="page">Layanan Permohonan Data dan Informasi</a>
+          <a href="konsultasi-pengaduan.html">Konsultasi dan Pengaduan</a>
           <a href="https://e-skm.bappelitbangda.tasikmalayakab.go.id/public/" target="_blank" rel="noopener">Survey Kepuasan Masyarakat</a>
           <a href="http://localhost:4000/api/dokumen/ikm" target="_blank" rel="noopener">Nilai IKM</a>
         </div>
@@ -49,10 +49,10 @@
 
   <section class="page-hero" style="padding-bottom:60px;">
     <div class="container">
-      <p class="crumb"><a href="index.html">Beranda</a> <span>/</span> <span>Konsultasi dan Pengaduan</span></p>
+      <p class="crumb"><a href="index.html">Beranda</a> <span>/</span> <span>Permohonan Data dan Informasi</span></p>
       <p class="eyebrow">Formulir Resmi</p>
-      <h1>Konsultasi dan Pengaduan</h1>
-      <p class="lede">Lengkapi formulir berikut untuk mengajukan Konsultasi dan Pengaduan di BAPPELITBANGDA wilayah Kabupaten Tasikmalaya.</p>
+      <h1>Permohonan Data dan Informasi</h1>
+      <p class="lede">Lengkapi formulir berikut untuk mengajukan Permohonan Data dan Informasi di BAPPELITBANGDA wilayah Kabupaten Tasikmalaya.</p>
     </div>
   </section>
 
@@ -60,59 +60,103 @@
     <div class="container">
       <div class="form-shell reveal" id="ajuan">
         <div class="kop">
-          <div class="kop-title">Formulir Konsultasi dan Pengaduan</div>
-          <div class="kop-code">No. Formulir: BPLB/KSPD/2026</div>
+          <div class="kop-title">Formulir Permohonan Data dan Informasi</div>
+          <div class="kop-code">No. Formulir: BPLB/PDI/2026</div>
         </div>
 
-        <form id="konsultasiForm" novalidate>
+        <form id="permohonanForm" novalidate enctype="multipart/form-data">
           <div class="form-grid">
-            <div class="field">
-              <label for="p-registrasi">Nomor Registrasi</label>
-              <input type="text" id="p-registrasi" name="registrasi" required inputmode="numeric" pattern="[0-9]{16}" maxlength="16">
-            </div>
-
-            <div class="field">
-              <label for="p-tanggal">Tanggal</label>
-              <input type="date" id="p-tanggal" name="tanggal" required>
-            </div>
+            <p class="field full" style="margin:0 0 4px; font-weight:600; color:var(--ink-soft); font-size:0.85rem; text-transform:uppercase; letter-spacing:.03em;">Data Pemohon</p>
 
             <div class="field">
               <label for="p-nama">Nama Pemohon</label>
-              <input type="text" id="p-nama" name="nama" required autocomplete="name">
+              <input type="text" id="p-nama" name="namaPemohon" required autocomplete="name">
             </div>
 
             <div class="field">
-              <label for="p-instansi">Instansi</label>
-              <input type="text" id="p-instansi" name="instansi" required>
+              <label for="p-nik">NIK</label>
+              <input type="text" id="p-nik" name="nik" required inputmode="numeric" pattern="[0-9]{16}" maxlength="16" placeholder="16 digit sesuai KTP">
+            </div>
+
+            <div class="field">
+              <label for="p-pekerjaan">Pekerjaan</label>
+              <input type="text" id="p-pekerjaan" name="pekerjaan" required>
+            </div>
+
+            <div class="field">
+              <label for="p-instansi">Instansi (jika mewakili lembaga)</label>
+              <input type="text" id="p-instansi" name="instansi">
+            </div>
+
+            <div class="field full">
+              <label for="p-alamat">Alamat Sesuai KTP</label>
+              <input type="text" id="p-alamat" name="alamat" required>
             </div>
 
             <div class="field">
               <label for="p-hp">Nomor HP / WhatsApp</label>
-              <input type="tel" id="p-hp" name="hp" required autocomplete="tel">
+              <input type="tel" id="p-hp" name="noHp" required autocomplete="tel">
             </div>
 
             <div class="field">
-              <label for="bidang">Jenis Layanan</label>
-              <select id="bidang" name="bidang" required>
-                <option value="" disabled selected>Pilih jenis layanan</option>
-                <option>Konsultasi</option>
-                <option>Pengaduan</option>
+              <label for="p-email">Alamat Email</label>
+              <input type="email" id="p-email" name="email" required autocomplete="email">
+            </div>
+
+            <p class="field full" style="margin:20px 0 4px; font-weight:600; color:var(--ink-soft); font-size:0.85rem; text-transform:uppercase; letter-spacing:.03em;">Rincian Permohonan</p>
+
+            <div class="field full">
+              <label for="p-jenis-data">Jenis Data/Informasi yang Dimohon</label>
+              <input type="text" id="p-jenis-data" name="jenisData" required placeholder="Contoh: Data RPJMD, Peta Tata Ruang, dll.">
+            </div>
+
+            <div class="field">
+              <label for="p-cara-memperoleh">Cara Memperoleh Informasi</label>
+              <select id="p-cara-memperoleh" name="caraMemperoleh" required>
+                <option value="" disabled selected>Pilih cara</option>
+                <option value="Langsung di Kantor">Langsung di Kantor</option>
+                <option value="Email">Email</option>
+                <option value="Pos">Pos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="p-bentuk-salinan">Bentuk Salinan Informasi</label>
+              <select id="p-bentuk-salinan" name="bentukSalinan" required>
+                <option value="" disabled selected>Pilih bentuk</option>
+                <option value="Softcopy (PDF)">Softcopy (PDF)</option>
+                <option value="Cetak / Fotokopi">Cetak / Fotokopi</option>
+                <option value="Melihat/Membaca di Tempat">Melihat/Membaca di Tempat</option>
               </select>
             </div>
 
             <div class="field full">
-              <label for="p-email">Alamat Email</label>
-              <input type="email" id="p-email" name="email" required autocomplete="email">
+              <label for="p-tujuan">Tujuan Penggunaan Informasi</label>
+              <textarea id="p-tujuan" name="tujuanPenggunaan" required placeholder="Jelaskan untuk keperluan apa informasi ini digunakan..."></textarea>
             </div>
-            
+
             <div class="field full">
-              <label for="p-uraian">Uraian Konsultasi/Pengaduan</label>
-              <textarea id="p-uraian" name="uraian" placeholder="Isi uraian konsultasi atau pengaduan di sini..."></textarea>
+              <label for="p-uraian">Uraian Permohonan Data dan Informasi</label>
+              <textarea id="p-uraian" name="uraian" required placeholder="Isi uraian permohonan data/informasi di sini..."></textarea>
             </div>
+
+            <p class="field full" style="margin:20px 0 4px; font-weight:600; color:var(--ink-soft); font-size:0.85rem; text-transform:uppercase; letter-spacing:.03em;">Unggah Dokumen</p>
+
+            <div class="field">
+              <label for="p-file-ktp">Upload KTP / Identitas <span style="font-weight:400; color:var(--ink-soft);">(PDF/JPG/PNG, maks 2MB)</span></label>
+              <input type="file" id="p-file-ktp" name="fileKtp" accept=".pdf,.jpg,.jpeg,.png" required>
+            </div>
+
+            <div class="field">
+              <label for="p-file-kuasa">Upload Surat Kuasa <span style="font-weight:400; color:var(--ink-soft);">(jika mewakili lembaga, opsional)</span></label>
+              <input type="file" id="p-file-kuasa" name="fileSuratKuasa" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <input type="hidden" name="jenisLayanan" value="Permohonan Informasi">
           </div>
 
           <div class="form-footer">
-            <span class="req-note">Semua kolom wajib diisi</span>
+            <span class="req-note">Kolom bertanda wajib diisi, kecuali Instansi dan Surat Kuasa</span>
             <button type="submit" class="btn btn-solid">Kirim Ajuan</button>
           </div>
         </form>
@@ -194,8 +238,8 @@
                 <ul class="footer-menu">
                   <li><a href="pengajuan.html">Magang / PKL</a></li>
                   <li><a href="penelitian.html">Izin Penelitian</a></li>
-                  <li><a href="">Layanan Permohonan Data dan Informasi</a></li>
-                  <li><a href="permohonan-informasi.html">Konsultasi dan Pengaduan</a></li>
+                  <li><a href="permohonan-informasi.html" aria-current="page">Layanan Permohonan Data dan Informasi</a></li>
+                  <li><a href="konsultasi-pengaduan.html">Konsultasi dan Pengaduan</a></li>
                   <li><a href="https://e-skm.bappelitbangda.tasikmalayakab.go.id/public/" target="_blank" rel="noopener">Survey Kepuasan Masyarakat</a></li>
                   <li><a href="http://localhost:4000/api/dokumen/ikm" target="_blank" rel="noopener">Nilai IKM</a></li>
                 </ul>

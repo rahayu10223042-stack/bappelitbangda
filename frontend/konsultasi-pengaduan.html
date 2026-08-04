@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konsultasi dan Pengaduan — Bappelitbangda Kabupaten Tasikmalaya</title>
+<meta name="description" content="Formulir pengajuan konsultasi dan pengaduan secara online di Bappelitbangda Kabupaten Tasikmalaya.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Lompat ke konten utama</a>
+
+<header class="site-header">
+    <div class="header-inner">
+    <a class="brand" href="index.html">
+      <div class="header-logo-group">
+        <img src="images/logo-kabupaten.png" alt="Logo Kabupaten Tasikmalaya">
+        <img src="images/logo-bappelitbangda.png" alt="Logo Bappelitbangda Kabupaten Tasikmalaya">
+        <img src="images/logo-berakhlak.png" alt="BerAKHLAK">
+        <img src="images/logo-bangga-melayani.png" alt="Bangga Melayani Bangsa">
+      </div>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Buka menu navigasi">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Beranda</a>
+      <a href="alur.html">Alur Layanan</a>
+      <a href="cek-status.html">Cek Status</a>
+      <a href="maklumat.html">Maklumat</a>
+       <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+            Ajuan Layanan
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+      <div class="nav-dropdown-menu">
+          <a href="pengajuan.html">Magang / PKL</a>
+          <a href="penelitian.html">Izin Penelitian</a>
+          <a href="permohonan-informasi.html">Layanan Permohonan Data dan Informasi</a>
+          <a href="konsultasi-pengaduan.html" aria-current="page">Konsultasi dan Pengaduan</a>
+          <a href="https://e-skm.bappelitbangda.tasikmalayakab.go.id/public/" target="_blank" rel="noopener">Survey Kepuasan Masyarakat</a>
+          <a href="http://localhost:4000/api/dokumen/ikm" target="_blank" rel="noopener">Nilai IKM</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <section class="page-hero" style="padding-bottom:60px;">
+    <div class="container">
+      <p class="crumb"><a href="index.html">Beranda</a> <span>/</span> <span>Konsultasi dan Pengaduan</span></p>
+      <p class="eyebrow">Formulir Resmi</p>
+      <h1>Konsultasi dan Pengaduan</h1>
+      <p class="lede">Lengkapi formulir berikut untuk mengajukan Konsultasi dan Pengaduan di BAPPELITBANGDA wilayah Kabupaten Tasikmalaya.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0; margin-top:-48px;">
+    <div class="container">
+      <div class="form-shell reveal" id="ajuan">
+        <div class="kop">
+          <div class="kop-title">Formulir Konsultasi dan Pengaduan</div>
+          <div class="kop-code">No. Formulir: BPLB/KSPD/2026</div>
+        </div>
+
+        <form id="konsultasiForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="p-nama">Nama Pemohon</label>
+              <input type="text" id="p-nama" name="namaPemohon" required autocomplete="name">
+            </div>
+
+            <div class="field">
+              <label for="p-instansi">Instansi</label>
+              <input type="text" id="p-instansi" name="instansi" required>
+            </div>
+
+            <div class="field">
+              <label for="p-hp">Nomor HP / WhatsApp</label>
+              <input type="tel" id="p-hp" name="noHp" required autocomplete="tel">
+            </div>
+
+            <div class="field">
+              <label for="bidang">Jenis Layanan</label>
+              <select id="bidang" name="jenisLayanan" required>
+                <option value="" disabled selected>Pilih jenis layanan</option>
+                <option>Konsultasi</option>
+                <option>Pengaduan</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="p-email">Alamat Email</label>
+              <input type="email" id="p-email" name="email" required autocomplete="email">
+            </div>
+            
+            <div class="field full">
+              <label for="p-uraian">Uraian Konsultasi/Pengaduan</label>
+              <textarea id="p-uraian" name="uraian" placeholder="Isi uraian konsultasi atau pengaduan di sini..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <span class="req-note">Semua kolom wajib diisi</span>
+            <button type="submit" class="btn btn-solid">Kirim Ajuan</button>
+          </div>
+        </form>
+
+        <div class="result-panel" id="resultPanel">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <strong>Pesan Anda telah kami terima!</strong>
+                <p style="margin:4px 0 0; color:var(--ink-soft); font-size:0.9rem;">Tim kami akan segera menindaklanjuti dan merespon melalui email/WhatsApp yang Anda daftarkan.</p>
+              </div>
+              <div class="ticket" id="ticketDisplay">#KON-XXXX</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Sebelum Mengajukan Pastikan</p>
+        <h2></h2>
+      </div>
+      <div class="value-grid">
+        <div class="value-item reveal">
+          <span class="icon-plate" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </span>
+          <h4>Kontak Aktif</h4>
+          <p>Nomor HP/WhatsApp dan email aktif untuk konfirmasi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-custom" id="kontak">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Profil -->
+            <div class="footer-col footer-col-profile">
+                <div class="logo-4-wrapper">
+                    <img src="images/logo-kabupaten.png" alt="Logo Kabupaten" class="footer-logo-img">
+                    <img src="images/logo-bappelitbangda.png" alt="Logo BAPPELITBANGDA">
+                    <img src="images/logo-berakhlak.png" alt="BerAKHLAK">
+                    <img src="images/logo-bangga-melayani.png" alt="Bangga Melayani Bangsa">
+                </div>
+                <p style="margin-top: 15px; font-size: 14px; opacity: 0.9;">
+                    Badan Perencanaan Pembangunan, Penelitian dan Pengembangan Daerah
+                    Kabupaten Tasikmalaya
+                </p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/bappeda.kabupatentasikmalaya" target="_blank" class="social-link" title="Facebook">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/bappelitbangda_kabtasikmalaya?igsh=MXQ2bWVnajR3OXdqbQ==" target="_blank" class="social-link" title="Instagram">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="https://youtube.com/@bappelitbangdakabtsm?si=A5zXnD1yhACrHSFP" target="_blank" class="social-link" title="YouTube">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Menu Utama -->
+            <div class="footer-col">
+                <h6 class="footer-title">MENU UTAMA</h6>
+                <ul class="footer-menu">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="alur.html">Alur Layanan</a></li>
+                    <li><a href="maklumat.html">Maklumat</a></li>
+                </ul>
+            </div>
+            
+            <!-- Layanan -->
+            <div class="footer-col">
+                <h6 class="footer-title">LAYANAN</h6>
+                <ul class="footer-menu">
+                  <li><a href="pengajuan.html">Magang / PKL</a></li>
+                  <li><a href="penelitian.html">Izin Penelitian</a></li>
+                  <li><a href="permohonan-informasi.html">Layanan Permohonan Data dan Informasi</a></li>
+                  <li><a href="konsultasi-pengaduan.html" aria-current="page">Konsultasi dan Pengaduan</a></li>
+                  <li><a href="https://e-skm.bappelitbangda.tasikmalayakab.go.id/public/" target="_blank" rel="noopener">Survey Kepuasan Masyarakat</a></li>
+                  <li><a href="http://localhost:4000/api/dokumen/ikm" target="_blank" rel="noopener">Nilai IKM</a></li>
+                </ul>
+            </div>
+            
+            <!-- Kontak -->
+            <div class="footer-col">
+                <h6 class="footer-title">KONTAK</h6>
+                <ul class="footer-contact">
+                    <li>
+                        <span class="contact-icon">📍</span>
+                        <span>Komplek Perkantoran Jalan Sukapura III Singaparna Kabupaten Tasikmalaya</span>
+                    </li>
+                    <li>
+                        <span class="contact-icon">📞</span>
+                        <span>(0265) 543340</span>
+                    </li>
+                    <li>
+                        <span class="contact-icon">✉️</span>
+                        <span><a href="mailto:bappelitbangda@tasikmalayakab.go.id">bappelitbangda@tasikmalayakab.go.id</a></span>
+                    </li>
+                    <li>
+                        <span class="contact-icon">🕐</span>
+                        <span>Senin - Jumat: 08.00 - 16.30</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 BAPPELITBANGDA Kabupaten Tasikmalaya. Semua hak dilindungi.</p>
+        </div>
+    </div>
+</footer>
+
+<div class="toast" id="toast" role="alert"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

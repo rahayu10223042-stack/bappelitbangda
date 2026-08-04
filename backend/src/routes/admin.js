@@ -1,11 +1,11 @@
 const express = require('express');
 const { pool } = require('../db');
-const { requireAdminKey } = require('../middleware/auth');
+ const { requireAdminAuth } = require('../middleware/requireAdminAuth');
 
 const router = express.Router();
 
 // Semua route di bawah ini wajib menyertakan header X-Admin-Key
-router.use(requireAdminKey);
+router.use(requireAdminAuth);
 
 // GET /api/admin/ajuan?status=&jenis=&search=&page=&limit=
 router.get('/ajuan', async (req, res) => {

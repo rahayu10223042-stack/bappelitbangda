@@ -8,12 +8,14 @@ Dokumen ini adalah panduan serah terima source code dari pengembang (Kerja Prakt
 ## 1. Gambaran Umum Sistem
 
 Sistem ini melayani 2 jenis pengajuan secara daring:
-1. **Magang / Praktik Kerja Lapangan (PKL)**
-2. **Izin Penelitian**
+- Magang / Praktik Kerja Lapangan (PKL)
+- Izin Penelitian
 
 Terdiri dari 2 bagian utama:
 - **Frontend** — halaman publik (form pengajuan, cek status, info layanan) + panel admin, berupa HTML/CSS/JS statis (tidak butuh Node.js untuk menjalankan, cukup di-host sebagai file statis).
 - **Backend** — REST API (Node.js + Express.js) yang menangani penyimpanan data ke MySQL, upload berkas, dan autentikasi admin.
+
+**Catatan versi:** Sejak dokumen ini diperbarui, sistem login admin sudah diganti total — dari satu "Admin Key" bersama menjadi **akun admin individual (username + password)** dengan sesi berbasis token (JWT). Lihat Bagian 4 dan 6 untuk detailnya.
 
 ---
 
@@ -27,13 +29,13 @@ frontend/
 ├── cek-status.html
 ├── alur.html
 ├── maklumat.html
-├── admin-login.html
+├── admin-login.html         (Login admin — username & password)
 ├── admin.html                (Dashboard admin)
 ├── admin-ajuan.html          (Kelola data Magang/PKL)
 ├── admin-penelitian.html     (Kelola data Izin Penelitian)
 ├── style.css
 ├── script.js
-├── admin-common.js
+├── admin-common.js           (helper bersama: authHeaders, login, logout)
 ├── admin-dashboard.js
 ├── admin-ajuan.js
 ├── admin-penelitian.js
@@ -42,22 +44,27 @@ frontend/
 backend/
 ├── server.js
 ├── package.json
-├── schema.sql                 (skema database lengkap — WAJIB dijalankan sebelum start server)
+├── schema.sql                 (skema database lengkap, termasuk tabel admin_users — WAJIB dijalankan sebelum start server)
+├── scripts/
+│   ├── create-admin.js        (sekali-jalan: membuat akun admin pertama)
+│   └── reset-admin-password.js (sekali-jalan: reset password akun admin yang lupa)
 ├── src/
 │   ├── db.js                  (koneksi MySQL)
 │   ├── middleware/
-│   │   └── auth.js            (autentikasi admin)
+│   │   └── requireAdminAuth.js (verifikasi token JWT untuk semua endpoint admin)
 │   └── routes/
 │       ├── ajuan.js           (publik: Magang/PKL)
 │       ├── admin.js           (admin: Magang/PKL + ringkasan + berita acara)
 │       ├── penelitian.js      (publik: Izin Penelitian)
 │       ├── admin-penelitian.js (admin: Izin Penelitian)
+│       ├── admin-permohonan.js (admin: Layanan Permohonan Data & Informasi)
+│       ├── admin-auth.js       (admin: login, cek sesi, ganti password)
 │       ├── dokumen.js         (admin: kelola dokumen layanan publik)
 │       └── dokumen-public.js  (publik: akses dokumen layanan)
 └── .env.example                (⚠️ isi env production baru, JANGAN pakai .env development)
 ```
 
-> **Catatan:** folder `node_modules/` dan file `.env` milik development **sengaja tidak diikutsertakan**. Kredensial (database, admin key) harus dibuat baru khusus untuk production oleh tim yang mengelola server.
+**Catatan:** folder `node_modules/` dan file `.env` milik development sengaja tidak diikutsertakan. Kredensial (database, `JWT_SECRET`) harus dibuat baru khusus untuk production oleh tim yang mengelola server. Akun admin (username/password) juga harus dibuat ulang khusus untuk production — jangan pakai akun development.
 
 ---
 
@@ -82,28 +89,35 @@ npm install
 
 Buat file `.env` baru (lihat `.env.example`) dengan isi:
 
-```env
+```
 PORT=4000
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=<diisi_admin_server>
 DB_PASSWORD=<diisi_admin_server>
 DB_NAME=bappelitbangda_pkl
-ADMIN_API_KEY=<buat_kunci_baru_yang_kuat_dan_acak>
+JWT_SECRET=<buat_string_acak_panjang_dan_rahasia_minimal_32_karakter>
 FRONTEND_ORIGIN=<domain_asli_frontend, contoh: https://layanan.tasikmalayakab.go.id>
 ENABLE_GOOGLE_INTEGRATION=false
 ```
 
-> ⚠️ **Penting:** `ADMIN_API_KEY` adalah satu-satunya kunci masuk ke panel admin. Jangan gunakan nilai contoh/development. Buat string acak yang panjang (minimal 20 karakter), dan simpan hanya oleh pihak yang berwenang mengelola sistem ini di Bappelitbangda (bukan di Kominfo, karena Kominfo hanya mengelola infrastruktur/server, bukan operasional harian aplikasi).
+⚠️ **Penting:** `JWT_SECRET` dipakai untuk menandatangani sesi login semua admin. Jangan gunakan nilai contoh/development, dan jangan sebar ke pihak yang tidak berwenang — siapa pun yang memegang nilai ini bisa membuat token admin palsu. Buat string acak yang panjang (minimal 32 karakter, bisa pakai generator seperti randomkeygen.com).
 
-Setup database:
-
+**Setup database:**
 ```bash
-mysql -u root -p < schema.sql
+mysql -u root -p bappelitbangda_pkl < schema.sql
 ```
+(Pastikan `schema.sql` yang dipakai sudah termasuk tabel `admin_users` — cek dulu isinya sebelum dijalankan.)
 
-Jalankan server:
+**Buat akun admin pertama (WAJIB, sekali saja):**
+```bash
+node scripts/create-admin.js
+```
+Sebelum dijalankan, buka file `scripts/create-admin.js`, ganti `USERNAME`, `PASSWORD`, dan `NAMA_LENGKAP` sesuai akun production yang diinginkan. Password ini yang nanti dipakai admin pertama login — **catat baik-baik**, karena setelah dijalankan password langsung ter-hash dan tidak bisa dibaca ulang dari database.
 
+Kalau nanti ada admin lupa password, jalankan `node scripts/reset-admin-password.js` (isi `USERNAME` dan `PASSWORD_BARU` di file itu dulu sebelum dijalankan) — aman dipakai berulang kali kapan pun dibutuhkan.
+
+**Jalankan server:**
 ```bash
 # Untuk tes manual:
 node server.js
@@ -137,7 +151,7 @@ server {
 }
 ```
 
-Port `4000` (Node) **tidak perlu dibuka ke publik** — cukup diakses dari localhost server, diteruskan lewat Nginx.
+Port 4000 (Node) tidak perlu dibuka ke publik — cukup diakses dari localhost server, diteruskan lewat Nginx.
 
 ---
 
@@ -151,10 +165,18 @@ Port `4000` (Node) **tidak perlu dibuka ke publik** — cukup diakses dari local
 | GET | `/api/ajuan/status/:ticket` | Cek status ajuan Magang/PKL |
 | POST | `/api/penelitian` | Kirim ajuan Izin Penelitian (multipart: `proposal`, `suratPengantar`, `ktp`) |
 | GET | `/api/penelitian/status/:ticket` | Cek status ajuan Izin Penelitian |
-| GET | `/api/dokumen/:jenis` | Redirect ke file dokumen layanan (`alur` / `maklumat`) |
+| GET | `/api/dokumen/:jenis` | Redirect ke file dokumen layanan (alur / maklumat) |
 | GET | `/api/health` | Cek server aktif |
 
-### Admin (wajib header `X-Admin-Key`)
+### Autentikasi Admin
+
+| Method | Endpoint | Keterangan |
+|---|---|---|
+| POST | `/api/admin/auth/login` | Login — body `{ username, password }`, respons berisi `token` |
+| GET | `/api/admin/auth/me` | Cek siapa yang sedang login (butuh token) |
+| POST | `/api/admin/auth/change-password` | Ganti password — body `{ oldPassword, newPassword }` (butuh token) |
+
+### Admin (wajib header `Authorization: Bearer <token>`)
 
 | Method | Endpoint | Keterangan |
 |---|---|---|
@@ -168,21 +190,23 @@ Port `4000` (Node) **tidak perlu dibuka ke publik** — cukup diakses dari local
 | GET | `/api/admin/dokumen` | Status dokumen layanan publik |
 | POST | `/api/admin/dokumen/:jenis` | Upload/ganti dokumen layanan |
 
+**Catatan teknis untuk yang meneruskan/deploy:** di `server.js`, route `/api/admin/auth` harus didaftarkan (`app.use`) **sebelum** route `/api/admin` yang umum. Express mencocokkan path berdasarkan awalan, jadi kalau urutannya terbalik, request ke halaman login bisa ikut tersaring oleh middleware token milik route admin umum, dan login jadi selalu gagal meski username/password benar.
+
 ---
 
 ## 7. Status Integrasi Google (Drive/Sheets)
 
-Saat ini `ENABLE_GOOGLE_INTEGRATION=false` — berkas yang diunggah (surat pengantar, proposal, KTP) **belum tersimpan ke Google Drive**, dan rekap **belum otomatis tercatat ke Google Sheets**. Ini fitur opsional yang bisa diaktifkan nanti apabila dibutuhkan, dengan menyiapkan:
+Saat ini `ENABLE_GOOGLE_INTEGRATION=false` — berkas yang diunggah (surat pengantar, proposal, KTP) belum tersimpan ke Google Drive, dan rekap belum otomatis tercatat ke Google Sheets. Ini fitur opsional yang bisa diaktifkan nanti apabila dibutuhkan, dengan menyiapkan:
 - Google Cloud Service Account + file kredensial JSON
-- Google Drive API & Google Sheets API di-*enable* pada project tersebut
+- Google Drive API & Google Sheets API di-enable pada project tersebut
 
-Selama fitur ini nonaktif, berkas yang diunggah pengguna disimpan lokal di folder `uploads/` pada server — **pastikan folder ini ikut di-backup rutin**.
+Selama fitur ini nonaktif, berkas yang diunggah pengguna disimpan lokal di folder `uploads/` pada server — pastikan folder ini ikut di-backup rutin.
 
 ---
 
 ## 8. Yang Perlu Dibackup Rutin
 
-- Database MySQL (`bappelitbangda_pkl`) — disarankan `mysqldump` harian otomatis via cron.
+- Database MySQL (`bappelitbangda_pkl`), termasuk tabel `admin_users` — disarankan `mysqldump` harian otomatis via cron.
 - Folder `backend/uploads/` — berisi berkas dokumen layanan publik yang diunggah admin.
 
 ---
@@ -191,10 +215,10 @@ Selama fitur ini nonaktif, berkas yang diunggah pengguna disimpan lokal di folde
 
 | Pihak | Tanggung Jawab |
 |---|---|
-| **Kominfo** | Infrastruktur server, domain, SSL, reverse proxy, backup server, keamanan jaringan |
-| **Bappelitbangda (Umpeg)** | Pemegang Admin Key, operasional harian (verifikasi ajuan, kelola dokumen layanan), pelaporan Berita Acara |
-| **Pengembang (Kerja Praktik)** | Source code, dokumentasi ini, tidak lagi memegang kredensial production setelah serah terima |
+| Kominfo | Infrastruktur server, domain, SSL, reverse proxy, backup server, keamanan jaringan, penyimpanan `JWT_SECRET` production |
+| Bappelitbangda (Umpeg) | Pemegang akun admin (username & password), operasional harian (verifikasi ajuan, kelola dokumen layanan), pelaporan Berita Acara |
+| Pengembang (Kerja Praktik) | Source code, dokumentasi ini, tidak lagi memegang kredensial production setelah serah terima |
 
 ---
 
-*Dokumen ini disusun sebagai bagian dari serah terima hasil Kerja Praktik pengembangan backend sistem informasi layanan Magang, PKL, dan Izin Penelitian di Bappelitbangda Kabupaten Tasikmalaya.*
+Dokumen ini disusun sebagai bagian dari serah terima hasil Kerja Praktik pengembangan backend sistem informasi layanan Magang, PKL, dan Izin Penelitian di Bappelitbangda Kabupaten Tasikmalaya.

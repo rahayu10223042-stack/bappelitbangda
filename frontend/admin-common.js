@@ -1,10 +1,12 @@
 // =========================================================
 // BAPPELITBANGDA — Kode bersama untuk semua halaman admin
-// (login, cek kunci admin, logout, helper fetch)
-// Dipakai oleh: admin-login.html, admin.html, admin-ajuan.html
+// (login, cek sesi, logout, helper fetch dengan token)
+// Dipakai oleh: admin-login.html, admin.html, admin-ajuan.html,
+// admin-penelitian.html, dan halaman admin lain yang menyusul.
 // =========================================================
 const API_BASE = 'http://localhost:4000'; // SESUAIKAN bila backend beda host
-const KEY_STORAGE = 'bplb_admin_key';
+const TOKEN_STORAGE = 'bplb_admin_token';
+const ADMIN_INFO_STORAGE = 'bplb_admin_info';
 
 function showToast(message){
   const toast = document.getElementById('toast');
@@ -15,16 +17,25 @@ function showToast(message){
   showToast._t = setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-function getAdminKey(){
-  return localStorage.getItem(KEY_STORAGE);
+function getAdminToken(){
+  return localStorage.getItem(TOKEN_STORAGE);
+}
+
+function getAdminInfo(){
+  try {
+    return JSON.parse(localStorage.getItem(ADMIN_INFO_STORAGE) || 'null');
+  } catch {
+    return null;
+  }
 }
 
 function authHeaders(extra){
-  return Object.assign({ 'X-Admin-Key': getAdminKey() || '' }, extra || {});
+  return Object.assign({ 'Authorization': `Bearer ${getAdminToken() || ''}` }, extra || {});
 }
 
 function handleAuthFailure(){
-  localStorage.removeItem(KEY_STORAGE);
+  localStorage.removeItem(TOKEN_STORAGE);
+  localStorage.removeItem(ADMIN_INFO_STORAGE);
   window.location.href = 'admin-login.html';
 }
 
@@ -33,7 +44,7 @@ function handleAuthFailure(){
 // =========================================================
 const loginForm = document.getElementById('adminLoginForm');
 if (loginForm) {
-  if (getAdminKey()) {
+  if (getAdminToken()) {
     window.location.href = 'admin.html';
   }
 
@@ -49,29 +60,27 @@ if (loginForm) {
       return;
     }
 
-    const key = loginForm.adminKey.value.trim();
+    const username = loginForm.username.value.trim();
+    const password = loginForm.password.value;
     const originalLabel = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Memeriksa...';
 
     try {
-      const response = await fetch(`${API_BASE}/api/admin/ringkasan`, {
-        headers: { 'X-Admin-Key': key },
+      const response = await fetch(`${API_BASE}/api/admin/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
       });
 
-      if (response.status === 401 || response.status === 403) {
-        throw new Error('Admin Key salah atau tidak sah.');
-      }
-      if (!response.ok) {
-        throw new Error('Tidak dapat terhubung ke server. Coba lagi.');
-      }
-
       const result = await response.json();
-      if (!result.success) {
-        throw new Error(result.message || 'Admin Key salah atau tidak sah.');
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Username atau password salah.');
       }
 
-      localStorage.setItem(KEY_STORAGE, key);
+      localStorage.setItem(TOKEN_STORAGE, result.token);
+      localStorage.setItem(ADMIN_INFO_STORAGE, JSON.stringify(result.admin));
       window.location.href = 'admin.html';
 
     } catch (err) {
@@ -87,15 +96,26 @@ if (loginForm) {
 
 // =========================================================
 // PENJAGA HALAMAN ADMIN (hanya berjalan kalau ada #logoutBtn,
-// artinya ini halaman terproteksi: admin.html / admin-ajuan.html)
+// artinya ini halaman terproteksi: admin.html / admin-ajuan.html / dst)
 // =========================================================
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
-  if (!getAdminKey()) {
+  if (!getAdminToken()) {
     window.location.href = 'admin-login.html';
   }
+
+  // Tampilkan nama admin yang login, kalau elemen-elemen ini ada di halaman
+  const info = getAdminInfo();
+  if (info) {
+    const nameEl = document.getElementById('adminName');
+    const avatarEl = document.getElementById('adminAvatar');
+    if (nameEl) nameEl.textContent = info.namaLengkap || info.username || 'Admin';
+    if (avatarEl) avatarEl.textContent = (info.namaLengkap || info.username || 'A').charAt(0).toUpperCase();
+  }
+
   logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem(KEY_STORAGE);
+    localStorage.removeItem(TOKEN_STORAGE);
+    localStorage.removeItem(ADMIN_INFO_STORAGE);
     window.location.href = 'admin-login.html';
   });
 }

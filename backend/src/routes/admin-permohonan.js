@@ -9,9 +9,9 @@
 const express = require('express');
 const router = express.Router();
 const { pool } = require('../db');
-const { requireAdminKey } = require('../middleware/auth');
+const { requireAdminAuth } = require('../middleware/requireAdminAuth');
 
-router.use(requireAdminKey);
+router.use(requireAdminAuth);
 
 const VALID_STATUS = ['Menunggu Verifikasi', 'Diverifikasi', 'Ditolak', 'Selesai'];
 

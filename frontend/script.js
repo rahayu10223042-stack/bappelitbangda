@@ -88,6 +88,13 @@ if (statusForm) {
         sourceLabel = 'Izin Penelitian';
       }
 
+      // Kalau masih belum ketemu, coba cek di Permohonan Informasi/Konsultasi/Pengaduan
+      if (!response.ok || !result.success) {
+        response = await fetch(`${API_BASE}/api/permohonan/status/${encodeURIComponent(tiket)}`);
+        result = await response.json();
+        sourceLabel = 'Permohonan Informasi/Konsultasi/Pengaduan';
+      }
+
       if (!response.ok || !result.success) {
         throw new Error(result.message || 'Nomor tiket tidak ditemukan.');
       }
@@ -174,6 +181,68 @@ if (penelitianForm) {
 // const API_BASE = 'https://api.bappelitbangda-tasikmalaya.go.id';
 // ==========================================================
 const API_BASE = 'http://localhost:4000';
+
+// ==========================================================
+// Form Permohonan Informasi & Konsultasi/Pengaduan
+// POST {API_BASE}/api/permohonan
+// Dipakai bareng oleh permohonan-informasi.html (id="permohonanForm")
+// dan konsultasi-pengaduan.html (id="konsultasiForm") — keduanya
+// share ID resultPanel/ticketDisplay yang sama di halaman masing-masing.
+// ==========================================================
+function bindPermohonanForm(formId) {
+  const formEl = document.getElementById(formId);
+  if (!formEl) return;
+
+  const resultPanelEl = document.getElementById('resultPanel');
+  const ticketDisplayEl = document.getElementById('ticketDisplay');
+  const submitBtnEl = formEl.querySelector('button[type="submit"]');
+
+  formEl.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    if (!formEl.checkValidity()) {
+      formEl.reportValidity();
+      return;
+    }
+
+    const originalLabel = submitBtnEl.textContent;
+    submitBtnEl.disabled = true;
+    submitBtnEl.textContent = 'Mengirim...';
+
+    try {
+      const formData = new FormData(formEl);
+
+      const response = await fetch(`${API_BASE}/api/permohonan`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Gagal mengirim ajuan.');
+      }
+
+      if (ticketDisplayEl) ticketDisplayEl.textContent = result.ticketNumber;
+      if (resultPanelEl) {
+        resultPanelEl.classList.add('show');
+        resultPanelEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      showToast('Permohonan berhasil dikirim.');
+      formEl.reset();
+
+    } catch (err) {
+      console.error(err);
+      showToast(err.message || 'Terjadi kesalahan. Coba lagi beberapa saat. (Pastikan server backend aktif di ' + API_BASE + ')');
+    } finally {
+      submitBtnEl.disabled = false;
+      submitBtnEl.textContent = originalLabel;
+    }
+  });
+}
+
+bindPermohonanForm('permohonanForm');   // permohonan-informasi.html
+bindPermohonanForm('konsultasiForm');   // konsultasi-pengaduan.html
 
 const form = document.getElementById('ajuanForm');
 if (form) {

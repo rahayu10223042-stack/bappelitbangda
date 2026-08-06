@@ -119,3 +119,22 @@ if (logoutBtn) {
     window.location.href = 'admin-login.html';
   });
 }
+
+// =========================================================
+// DROPDOWN MENU ADMIN (gabungan navigasi + profil + logout,
+// muncul di pojok kanan topbar semua halaman admin)
+// =========================================================
+const adminMenuToggle = document.getElementById('adminMenuToggle');
+const adminMenuDropdown = document.getElementById('adminMenuDropdown');
+if (adminMenuToggle && adminMenuDropdown) {
+  adminMenuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = adminMenuDropdown.classList.toggle('open');
+    adminMenuToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  adminMenuDropdown.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', () => {
+    adminMenuDropdown.classList.remove('open');
+    adminMenuToggle.setAttribute('aria-expanded', 'false');
+  });
+}

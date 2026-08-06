@@ -29,11 +29,11 @@ CREATE TABLE IF NOT EXISTS permohonan_informasi (
 
 -- Log perubahan status (mengikuti pola tabel lain)
 CREATE TABLE IF NOT EXISTS permohonan_status_log (
-  id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  permohonan_id   INT UNSIGNED NOT NULL,
-  status_lama     VARCHAR(40),
-  status_baru     VARCHAR(40) NOT NULL,
-  catatan_admin   TEXT,
-  changed_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (permohonan_id) REFERENCES permohonan_informasi(id) ON DELETE CASCADE
-) ENGINE=InnoDB;
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  permohonan_id INT NOT NULL,
+  status_lama VARCHAR(50) NULL,
+  status_baru VARCHAR(50) NOT NULL,
+  catatan_admin TEXT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (permohonan_id) REFERENCES permohonan(id) ON DELETE CASCADE
+); ENGINE=InnoDB;

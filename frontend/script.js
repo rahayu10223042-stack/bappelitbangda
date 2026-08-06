@@ -88,11 +88,18 @@ if (statusForm) {
         sourceLabel = 'Izin Penelitian';
       }
 
-      // Kalau masih belum ketemu, coba cek di Permohonan Informasi/Konsultasi/Pengaduan
+      // Kalau masih belum ketemu, coba cek di Permohonan Informasi
       if (!response.ok || !result.success) {
         response = await fetch(`${API_BASE}/api/permohonan/status/${encodeURIComponent(tiket)}`);
         result = await response.json();
-        sourceLabel = 'Permohonan Informasi/Konsultasi/Pengaduan';
+        sourceLabel = 'Permohonan Informasi';
+      }
+
+      // Kalau masih belum ketemu, coba cek di Konsultasi/Pengaduan
+      if (!response.ok || !result.success) {
+        response = await fetch(`${API_BASE}/api/konsultasi-pengaduan/status/${encodeURIComponent(tiket)}`);
+        result = await response.json();
+        sourceLabel = 'Konsultasi/Pengaduan';
       }
 
       if (!response.ok || !result.success) {
@@ -184,12 +191,12 @@ const API_BASE = 'http://localhost:4000';
 
 // ==========================================================
 // Form Permohonan Informasi & Konsultasi/Pengaduan
-// POST {API_BASE}/api/permohonan
-// Dipakai bareng oleh permohonan-informasi.html (id="permohonanForm")
-// dan konsultasi-pengaduan.html (id="konsultasiForm") — keduanya
-// share ID resultPanel/ticketDisplay yang sama di halaman masing-masing.
+// permohonan-informasi.html -> POST {API_BASE}/api/permohonan
+// konsultasi-pengaduan.html -> POST {API_BASE}/api/konsultasi-pengaduan
+// (2 endpoint & tabel terpisah — keduanya share ID resultPanel/
+// ticketDisplay yang sama, tapi di halaman masing-masing)
 // ==========================================================
-function bindPermohonanForm(formId) {
+function bindPermohonanForm(formId, endpointPath) {
   const formEl = document.getElementById(formId);
   if (!formEl) return;
 
@@ -212,7 +219,7 @@ function bindPermohonanForm(formId) {
     try {
       const formData = new FormData(formEl);
 
-      const response = await fetch(`${API_BASE}/api/permohonan`, {
+      const response = await fetch(`${API_BASE}${endpointPath}`, {
         method: 'POST',
         body: formData,
       });
@@ -241,8 +248,8 @@ function bindPermohonanForm(formId) {
   });
 }
 
-bindPermohonanForm('permohonanForm');   // permohonan-informasi.html
-bindPermohonanForm('konsultasiForm');   // konsultasi-pengaduan.html
+bindPermohonanForm('permohonanForm', '/api/permohonan');            // permohonan-informasi.html
+bindPermohonanForm('konsultasiForm', '/api/konsultasi-pengaduan');  // konsultasi-pengaduan.html
 
 const form = document.getElementById('ajuanForm');
 if (form) {

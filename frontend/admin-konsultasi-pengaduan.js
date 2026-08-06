@@ -54,7 +54,7 @@ if (tableBody) {
   async function loadStats(){
     try {
       const params = new URLSearchParams({ jenisLayanan: currentJenisParam() });
-      const response = await fetch(`${API_BASE}/api/admin/permohonan/ringkasan?${params.toString()}`, { headers: authHeaders() });
+      const response = await fetch(`${API_BASE}/api/admin/konsultasi-pengaduan/ringkasan?${params.toString()}`, { headers: authHeaders() });
       if (response.status === 401 || response.status === 403) return handleAuthFailure();
       const result = await response.json();
       if (!result.success) throw new Error(result.message);
@@ -141,7 +141,7 @@ if (tableBody) {
     btnEl.textContent = '...';
 
     try {
-      const response = await fetch(`${API_BASE}/api/admin/permohonan/${id}/status`, {
+      const response = await fetch(`${API_BASE}/api/admin/konsultasi-pengaduan/${id}/status`, {
         method: 'PATCH',
         headers: authHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ status: newStatus, catatanAdmin }),
@@ -175,7 +175,7 @@ if (tableBody) {
       params.set('page', currentPage);
       params.set('limit', pageLimit);
 
-      const response = await fetch(`${API_BASE}/api/admin/permohonan?${params.toString()}`, {
+      const response = await fetch(`${API_BASE}/api/admin/konsultasi-pengaduan?${params.toString()}`, {
         headers: authHeaders(),
       });
 
@@ -218,7 +218,6 @@ if (tableBody) {
     ['uraian', 'Uraian'],
     ['status', 'Status'],
     ['created_at', 'Waktu Kirim'],
-    ['created_at', 'Waktu Kirim'],
   ];
 
   async function fetchAllForExport(){
@@ -235,7 +234,7 @@ if (tableBody) {
       params.set('page', page);
       params.set('limit', EXPORT_PAGE_SIZE);
 
-      const response = await fetch(`${API_BASE}/api/admin/permohonan?${params.toString()}`, {
+      const response = await fetch(`${API_BASE}/api/admin/konsultasi-pengaduan?${params.toString()}`, {
         headers: authHeaders(),
       });
       if (response.status === 401 || response.status === 403) return handleAuthFailure();

@@ -23,28 +23,36 @@ Terdiri dari 2 bagian utama:
 
 ```
 frontend/
-├── index.html              (Beranda)
-├── pengajuan.html           (Form Magang/PKL)
-├── penelitian.html          (Form Izin Penelitian)
-├── cek-status.html
-├── alur.html
-├── maklumat.html
-├── admin-login.html         (Login admin — username & password)
-├── admin.html                (Dashboard admin)
-├── admin-ajuan.html          (Kelola data Magang/PKL)
-├── admin-penelitian.html     (Kelola data Izin Penelitian)
-├── style.css
-├── script.js
-├── admin-common.js           (helper bersama: authHeaders, login, logout)
-├── admin-dashboard.js
-├── admin-ajuan.js
-├── admin-penelitian.js
-└── assets/, img/             (aset pendukung)
+├── index.html                      (Beranda)
+├── alur.html                       (Alur Pengajuan Magang/PKL)
+├── maklumat.html                   (Maklumat Pengajuan)
+├── cek-status.html                 (Cek Status Pengajuan)
+├── pengajuan.html                  (Form Magang/PKL)
+├── penelitian.html                 (Form Izin Penelitian)
+├── permohonan-informasi.html       (Form Permohonan Data Informasi)
+├── konsultasi-pengaduan.html       (Form Konsultasi Pengaduan)
+├── admin-login.html                (Login admin — username & password)
+├── admin-ganti-password.html       (Ubah Password Admin)
+├── admin.html                      (Dashboard admin)
+├── admin-ajuan.html                (Kelola Data Magang/PKL)
+├── admin-penelitian.html           (Kelola Data Izin Penelitian)
+├── admin-permohonan.html           (Kelola Data Permohonan)
+├── admin-konsultasi-pengaduan.html (Kelola Data Konsultasi)
+├── admin-common.js                 (helper bersama: authHeaders, login, logout)
+├── admin-dashboard.js              (Logika Grafik dan Ringkasan Data)
+├── admin-ajuan.js                  (Logika Kelola Ajuan Magang/PKL)
+├── admin-penelitian.js             (Logika Kelola Izin Penelitian)
+├── admin-konsultasi-pengaduan.js   (Logika Kelola Data Konsultasi Pengajuan)
+├── admin-permohonan.js             (Logika Kelola Data Permohonan)
+├── admin-ganti-password.js         (Validasi Form Ganti Password)
+├── style.css                       (Style Tampilan Website)
+├── script.js                       (Logika JS umum untuk Halaman Utama)
+└── assets/, img/                   (Aset Pendukung)
 
 backend/
-├── server.js
-├── package.json
-├── schema.sql                 (skema database lengkap, termasuk tabel admin_users — WAJIB dijalankan sebelum start server)
+├── server.js                       (File Server Backend Utama)
+├── package.json                    (Daftar Depensi/library Node.js)
+├── schema.sql                      (skema database lengkap WAJIB dijalankan sebelum start server)
 ├── scripts/
 │   ├── create-admin.js        (sekali-jalan: membuat akun admin pertama)
 │   └── reset-admin-password.js (sekali-jalan: reset password akun admin yang lupa)
@@ -53,15 +61,19 @@ backend/
 │   ├── middleware/
 │   │   └── requireAdminAuth.js (verifikasi token JWT untuk semua endpoint admin)
 │   └── routes/
-│       ├── ajuan.js           (publik: Magang/PKL)
-│       ├── admin.js           (admin: Magang/PKL + ringkasan + berita acara)
-│       ├── penelitian.js      (publik: Izin Penelitian)
-│       ├── admin-penelitian.js (admin: Izin Penelitian)
-│       ├── admin-permohonan.js (admin: Layanan Permohonan Data & Informasi)
-│       ├── admin-auth.js       (admin: login, cek sesi, ganti password)
-│       ├── dokumen.js         (admin: kelola dokumen layanan publik)
-│       └── dokumen-public.js  (publik: akses dokumen layanan)
-└── .env.example                (⚠️ isi env production baru, JANGAN pakai .env development)
+│       ├── admin.js                        (admin: Magang/PKL + ringkasan + berita acara)
+│       ├── admin-penelitian.js             (admin: Izin Penelitian)
+│       ├── admin-permohonan.js             (admin: Permohonan Data & Informasi)
+│       ├── admin-konsultasi-pengaduan.js   (admin: Konsultasi Pengaduan)
+│       ├── admin-auth.js                   (admin: login, cek sesi, ganti password)
+│       ├── penelitian.js                   (publik: Izin Penelitian)
+│       ├── ajuan.js                        (publik: Magang/PKL)
+│       ├── konsultasi-pengaduan.js         (publik: Konsultasi Pengaduan)
+│       ├── permohonan.js                   (publik: Permohonan Data & Informasi)
+│       ├── auth-google.js                  (Otorisasi Google)
+│       ├── dokumen.js                      (admin: kelola dokumen layanan publik)
+│       └── dokumen-public.js               (publik: akses dokumen layanan)
+└── .env.example                 (⚠️ isi env production baru, JANGAN pakai .env development)
 ```
 
 **Catatan:** folder `node_modules/` dan file `.env` milik development sengaja tidak diikutsertakan. Kredensial (database, `JWT_SECRET`) harus dibuat baru khusus untuk production oleh tim yang mengelola server. Akun admin (username/password) juga harus dibuat ulang khusus untuk production — jangan pakai akun development.

@@ -1,10 +1,11 @@
 // =========================================================
-// src/routes/admin-permohonan.js  (BARU)
-// Rute ADMIN — kelola Layanan Permohonan dan Informasi
-// (mencakup: Permohonan Informasi, Pengaduan, Konsultasi)
+// src/routes/admin-permohonan.js
+// Rute ADMIN — kelola Layanan Permohonan Informasi, Pengaduan, Konsultasi
 //
-// Daftarkan di server.js dengan:
-//   app.use('/api/admin/permohonan', require('./src/routes/admin-permohonan'));
+// Mendukung jenisLayanan sebagai satu nilai ATAU beberapa nilai
+// dipisah koma, contoh:
+//   ?jenisLayanan=Permohonan Informasi
+//   ?jenisLayanan=Pengaduan,Konsultasi
 // =========================================================
 const express = require('express');
 const router = express.Router();
@@ -25,22 +26,33 @@ router.get('/', async (req, res) => {
     const params = [];
 
     if (search) {
-      where.push('(nomor_registrasi LIKE ? OR nama_pemohon LIKE ? OR instansi LIKE ?)');
+      where.push('(ticket_number LIKE ? OR nama_pemohon LIKE ? OR instansi LIKE ?)');
       const s = `%${search}%`;
       params.push(s, s, s);
     }
     if (status) { where.push('status = ?'); params.push(status); }
-    if (jenisLayanan) { where.push('jenis_layanan = ?'); params.push(jenisLayanan); }
+
+    if (jenisLayanan) {
+      // dukung satu atau beberapa nilai dipisah koma
+      const jenisList = jenisLayanan.split(',').map((j) => j.trim()).filter(Boolean);
+      if (jenisList.length === 1) {
+        where.push('jenis_layanan = ?');
+        params.push(jenisList[0]);
+      } else if (jenisList.length > 1) {
+        where.push(`jenis_layanan IN (${jenisList.map(() => '?').join(',')})`);
+        params.push(...jenisList);
+      }
+    }
 
     const whereSQL = where.length ? `WHERE ${where.join(' AND ')}` : '';
 
     const [[{ total }]] = await pool.query(
-      `SELECT COUNT(*) AS total FROM permohonan_informasi ${whereSQL}`,
+      `SELECT COUNT(*) AS total FROM permohonan ${whereSQL}`,
       params,
     );
 
     const [rows] = await pool.query(
-      `SELECT * FROM permohonan_informasi ${whereSQL}
+      `SELECT * FROM permohonan ${whereSQL}
        ORDER BY created_at DESC LIMIT ? OFFSET ?`,
       [...params, parseInt(limit), offset],
     );
@@ -77,7 +89,7 @@ router.patch('/:id/status', async (req, res) => {
     await conn.beginTransaction();
 
     const [rows] = await conn.query(
-      'SELECT status FROM permohonan_informasi WHERE id = ? FOR UPDATE',
+      'SELECT status FROM permohonan WHERE id = ? FOR UPDATE',
       [req.params.id],
     );
     if (!rows.length) {
@@ -87,7 +99,7 @@ router.patch('/:id/status', async (req, res) => {
     const statusLama = rows[0].status;
 
     await conn.query(
-      'UPDATE permohonan_informasi SET status = ?, catatan_admin = ? WHERE id = ?',
+      'UPDATE permohonan SET status = ?, catatan = ? WHERE id = ?',
       [status, catatanAdmin || null, req.params.id],
     );
     await conn.query(
@@ -107,9 +119,26 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
-// GET /api/admin/permohonan/ringkasan — statistik untuk dashboard
+// GET /api/admin/permohonan/ringkasan?jenisLayanan= — statistik untuk dashboard
+// (jenisLayanan opsional, sama seperti di atas: satu nilai atau dipisah koma)
 router.get('/ringkasan', async (req, res) => {
   try {
+    const { jenisLayanan = '' } = req.query;
+    const where = [];
+    const params = [];
+
+    if (jenisLayanan) {
+      const jenisList = jenisLayanan.split(',').map((j) => j.trim()).filter(Boolean);
+      if (jenisList.length === 1) {
+        where.push('jenis_layanan = ?');
+        params.push(jenisList[0]);
+      } else if (jenisList.length > 1) {
+        where.push(`jenis_layanan IN (${jenisList.map(() => '?').join(',')})`);
+        params.push(...jenisList);
+      }
+    }
+    const whereSQL = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
     const [[totals]] = await pool.query(`
       SELECT
         COUNT(*) AS total,
@@ -120,8 +149,8 @@ router.get('/ringkasan', async (req, res) => {
         SUM(jenis_layanan = 'Permohonan Informasi') AS total_permohonan_informasi,
         SUM(jenis_layanan = 'Pengaduan') AS total_pengaduan,
         SUM(jenis_layanan = 'Konsultasi') AS total_konsultasi
-      FROM permohonan_informasi
-    `);
+      FROM permohonan ${whereSQL}
+    `, params);
     res.json({ success: true, data: totals });
   } catch (err) {
     console.error('[GET /api/admin/permohonan/ringkasan] Error:', err);

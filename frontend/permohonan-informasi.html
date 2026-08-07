@@ -278,5 +278,59 @@
 <div class="toast" id="toast" role="alert"></div>
 
 <script src="script.js"></script>
+<script>
+  const permohonanForm = document.getElementById('permohonanForm');
+  if (permohonanForm) {
+    const resultPanel = document.getElementById('resultPanel');
+    const ticketDisplay = document.getElementById('ticketDisplay');
+    const submitBtn = permohonanForm.querySelector('button[type="submit"]');
+
+    permohonanForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      if (!permohonanForm.checkValidity()) {
+        permohonanForm.reportValidity();
+        return;
+      }
+
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim...';
+
+      try {
+        // Field-nya sudah pas persis dengan yang diharapkan backend
+        // (namaPemohon, nik, pekerjaan, instansi, alamat, noHp, email,
+        // jenisData, caraMemperoleh, bentukSalinan, tujuanPenggunaan,
+        // uraian, fileKtp, fileSuratKuasa, jenisLayanan) — jadi cukup
+        // kirim langsung semua isi form apa adanya.
+        const formData = new FormData(permohonanForm);
+
+        const response = await fetch(`${API_BASE}/api/permohonan`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Gagal mengirim permohonan.');
+        }
+
+        ticketDisplay.textContent = result.ticketNumber;
+        resultPanel.classList.add('show');
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showToast('Permohonan berhasil dikirim.');
+        permohonanForm.reset();
+
+      } catch (err) {
+        console.error(err);
+        showToast(err.message || 'Terjadi kesalahan. Coba lagi beberapa saat. (Pastikan server backend aktif di ' + API_BASE + ')');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  }
+</script>
 </body>
 </html>

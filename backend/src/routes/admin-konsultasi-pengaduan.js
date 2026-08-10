@@ -33,9 +33,15 @@ router.get('/', async (req, res) => {
       where.push('status = ?');
       params.push(status);
     }
-    if (jenisLayanan) {
-      where.push('jenis_layanan = ?');
-      params.push(jenisLayanan);
+   if (jenisLayanan) {
+      const jenisList = jenisLayanan.split(',').map((j) => j.trim()).filter(Boolean);
+      if (jenisList.length === 1) {
+        where.push('jenis_layanan = ?');
+        params.push(jenisList[0]);
+      } else if (jenisList.length > 1) {
+        where.push(`jenis_layanan IN (${jenisList.map(() => '?').join(',')})`);
+        params.push(...jenisList);
+      }
     }
 
     const whereSQL = where.length ? `WHERE ${where.join(' AND ')}` : '';

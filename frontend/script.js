@@ -189,7 +189,7 @@ const API_BASE = 'http://localhost:4000';
 // dan konsultasi-pengaduan.html (id="konsultasiForm") — keduanya
 // share ID resultPanel/ticketDisplay yang sama di halaman masing-masing.
 // ==========================================================
-function bindPermohonanForm(formId) {
+function bindPermohonanForm(formId, endpoint) {
   const formEl = document.getElementById(formId);
   if (!formEl) return;
 
@@ -211,10 +211,12 @@ function bindPermohonanForm(formId) {
 
     try {
       const formData = new FormData(formEl);
+      const payload = Object.fromEntries(formData.entries());
 
-      const response = await fetch(`${API_BASE}/api/permohonan`, {
+      const response = await fetch(`${API_BASE}${endpoint}`, {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
@@ -241,8 +243,8 @@ function bindPermohonanForm(formId) {
   });
 }
 
-bindPermohonanForm('permohonanForm');   // permohonan-informasi.html
-bindPermohonanForm('konsultasiForm');   // konsultasi-pengaduan.html
+bindPermohonanForm('permohonanForm', '/api/permohonan');            // permohonan-informasi.html
+bindPermohonanForm('konsultasiForm', '/api/konsultasi-pengaduan');  // konsultasi-pengaduan.html
 
 const form = document.getElementById('ajuanForm');
 if (form) {

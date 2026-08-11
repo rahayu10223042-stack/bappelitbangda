@@ -7,9 +7,12 @@ Dokumen ini adalah panduan serah terima source code dari pengembang (Kerja Prakt
 
 ## 1. Gambaran Umum Sistem
 
-Sistem ini melayani 2 jenis pengajuan secara daring:
+Sistem ini melayani berbagai jenis pengajuan secara daring:
 - Magang / Praktik Kerja Lapangan (PKL)
 - Izin Penelitian
+- Permohonan Data dan Informasi
+- Konsultasi dan Pengaduan
+- Survey Kepuasan Masyarakat
 
 Terdiri dari 2 bagian utama:
 - **Frontend** — halaman publik (form pengajuan, cek status, info layanan) + panel admin, berupa HTML/CSS/JS statis (tidak butuh Node.js untuk menjalankan, cukup di-host sebagai file statis).
@@ -54,12 +57,12 @@ backend/
 ├── package.json                    (Daftar Depensi/library Node.js)
 ├── schema.sql                      (skema database lengkap WAJIB dijalankan sebelum start server)
 ├── scripts/
-│   ├── create-admin.js        (sekali-jalan: membuat akun admin pertama)
-│   └── reset-admin-password.js (sekali-jalan: reset password akun admin yang lupa)
+│   ├── create-admin.js             (sekali-jalan: membuat akun admin pertama)
+│   └── reset-admin-password.js     (sekali-jalan: reset password akun admin yang lupa)
 ├── src/
-│   ├── db.js                  (koneksi MySQL)
+│   ├── db.js                       (koneksi MySQL)
 │   ├── middleware/
-│   │   └── requireAdminAuth.js (verifikasi token JWT untuk semua endpoint admin)
+│   │   └── requireAdminAuth.js     (verifikasi token JWT untuk semua endpoint admin)
 │   └── routes/
 │       ├── admin.js                        (admin: Magang/PKL + ringkasan + berita acara)
 │       ├── admin-penelitian.js             (admin: Izin Penelitian)
@@ -73,7 +76,7 @@ backend/
 │       ├── auth-google.js                  (Otorisasi Google)
 │       ├── dokumen.js                      (admin: kelola dokumen layanan publik)
 │       └── dokumen-public.js               (publik: akses dokumen layanan)
-└── .env.example                 (⚠️ isi env production baru, JANGAN pakai .env development)
+└── .env.example                            (⚠️ isi env production baru, JANGAN pakai .env development)
 ```
 
 **Catatan:** folder `node_modules/` dan file `.env` milik development sengaja tidak diikutsertakan. Kredensial (database, `JWT_SECRET`) harus dibuat baru khusus untuk production oleh tim yang mengelola server. Akun admin (username/password) juga harus dibuat ulang khusus untuk production — jangan pakai akun development.
@@ -229,8 +232,8 @@ Selama fitur ini nonaktif, berkas yang diunggah pengguna disimpan lokal di folde
 |---|---|
 | Kominfo | Infrastruktur server, domain, SSL, reverse proxy, backup server, keamanan jaringan, penyimpanan `JWT_SECRET` production |
 | Bappelitbangda (Umpeg) | Pemegang akun admin (username & password), operasional harian (verifikasi ajuan, kelola dokumen layanan), pelaporan Berita Acara |
-| Pengembang (Kerja Praktik) | Source code, dokumentasi ini, tidak lagi memegang kredensial production setelah serah terima |
+| Pengembang (Kerja Praktik) | Source code, dokumentasi, tidak lagi memegang kredensial production setelah serah terima |
 
 ---
 
-Dokumen ini disusun sebagai bagian dari serah terima hasil Kerja Praktik pengembangan backend sistem informasi layanan Magang, PKL, dan Izin Penelitian di Bappelitbangda Kabupaten Tasikmalaya.
+Dokumen ini disusun sebagai bagian dari serah terima hasil Kerja Praktik pengembangan backend dan frontend sistem informasi layanan di Bappelitbangda Kabupaten Tasikmalaya.
